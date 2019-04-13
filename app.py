@@ -19,7 +19,10 @@ app.config.update({
 })
 
 @app.route('/')
-def index():       
+def index():
+    deta.json = {
+        'html': '<h1>首页</h1>'
+    }  
     
     return render_template()
 
