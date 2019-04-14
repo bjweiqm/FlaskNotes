@@ -23,7 +23,7 @@ app = Flask(__name__)
 app.config.update({
     # 开启debug模式，
     "DEBUG": True,
-    # 开启自动加载模式，修改静态资源后，无需重新启动服务器。
+    # 开启自动加载模式，修改静态资源后，无需重新启动服务器。自动加载最新服务。
     "TEMPLATES_AUTO_RELOAD": True
 })
 
