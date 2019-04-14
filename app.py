@@ -29,10 +29,7 @@ app.config.update({
 # @app.route('/') 就是将url中的/映射到index这个视图函数上面
 # 以后你访问我这个网站的/目录的时候，会执行index这个函数，然后将这个函数的返回值返回给浏览器
 @app.route('/')
-def index():
-    deta.json = {
-        'html': '<h1>首页</h1>'
-    }  
+def index(): 
     
     return render_template('index.html')
 
