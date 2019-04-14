@@ -37,5 +37,7 @@ def index():
     return render_template()
 
 
+# 如果这个文件作为主文件运行，那么就执行app.run()方法
+# 也就是启动这个网站
 if __name__=='__main__':
-   print('ceshi')
+   app.run()
