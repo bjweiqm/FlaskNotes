@@ -70,11 +70,8 @@ app.config.update({
 # 以后你访问我这个网站的/目录的时候，会执行index这个函数，然后将这个函数的返回值返回给浏览器
 @app.route('/')
 def index():
-    deta.json = {
-        'html': '<h1>首页</h1>'
-    }  
-    
-    return render_template()
+ 
+    return render_template('index.html')
 
 
 # 如果这个文件作为主文件运行，那么就执行app.run()方法
