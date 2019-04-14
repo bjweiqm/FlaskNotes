@@ -70,7 +70,6 @@ app.config.update({
 # 以后你访问我这个网站的/目录的时候，会执行index这个函数，然后将这个函数的返回值返回给浏览器
 @app.route('/')
 def index():
- 
     return render_template('index.html')
 
 @app.route('/my_list/')

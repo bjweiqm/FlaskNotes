@@ -34,7 +34,7 @@ def index():
         'html': '<h1>首页</h1>'
     }  
     
-    return render_template()
+    return render_template('index.html')
 
 
 # 如果这个文件作为主文件运行，那么就执行app.run()方法
