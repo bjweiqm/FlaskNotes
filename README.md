@@ -73,6 +73,10 @@ def index():
  
     return render_template('index.html')
 
+@app.route('/my_list/')
+def my_list():
+    return 'My list'
+
 
 # 如果这个文件作为主文件运行，那么就执行app.run()方法
 # 也就是启动这个网站
