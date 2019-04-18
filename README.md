@@ -4,7 +4,7 @@ Flask Nots
 
 ## 第一章： Flask入门
 
-### URL详解
+### 1.1 URL详解
 
 URL是Uniform Resource Locator的简写，统一资源定位符
 
@@ -19,7 +19,7 @@ scheme://host:post/path/?query-string=xxx#anchor
 - ？query-string: 查询字符串，比如：www.baidu.com/?wd=python, 后面的wd=python就是查询字符串
 - anchor: 锚点，后台一般不用管，前段用来做页面的定位，比如：www.baidu.com/item/xxx/xxx?fr=XXX#7
 
-### Flask简介
+### 1.2 Flask简介
 
 Flask是一个非常流行的python web框架，出生于2010年，作者是Armin Ronacher, 本来这个项目只是作者愚人节的一个玩笑，后来由于非常受欢迎，进而成为一个正式的项目。
 
@@ -35,57 +35,210 @@ Flask的灵活度非常之高，他不会帮你做太多的决策，即使已经
 - 使用Flask开发数据库时，具体使用SQLAlchemy 还是MogoEngine或者是不用ORM而是直接基于MYSQL-Pyton这样的底层驱动进行开发都是可以的。选择权完全掌握在你自己的手中，区别于Django， Django内置了非常完善和丰富的功能，并且加入如果你想替换成你自己想要的，要么不支持，要么非常麻烦。
 - 把默认的Jinjia2模板引擎替换成Mako引擎或者是其他模板引擎是非常容易的。
 
-### 第一个Flask程序
+### 1.3 第一个Flask程序
 
 ```python
-#!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-'''
-@File    :   app.py
-@Time    :   2019/04/13 08:46:32
-@Author  :   WM 
-@Version :   1.0
-@License :   (C)Copyright 2017-2018, Liugroup-NLPR-CASIA
-@Desc    :   None
-'''
-# 从flask这个包中导入Flask类
-# Flask这个类是项目的核心，以后很多操作都是基于这个类的对象
-# 注册url，注册蓝图等都是基于这个类的对象
-from flask import Flask, render_template
+    #!/usr/bin/env python
+    # -*- encoding: utf-8 -*-
+    '''
+    @File    :   app.py
+    @Time    :   2019/04/13 08:46:32
+    @Author  :   WM 
+    @Version :   1.0
+    @License :   (C)Copyright 2017-2018, Liugroup-NLPR-CASIA
+    @Desc    :   None
+    '''
+    # 从flask这个包中导入Flask类
+    # Flask这个类是项目的核心，以后很多操作都是基于这个类的对象
+    # 注册url，注册蓝图等都是基于这个类的对象
+    from flask import Flask, render_template
 
-#创建一个Flask对象，传递一个__name__参数进去
-#__name__参数的作用：
-#1. 可以规定模板和静态文件的查找路径
-#2. 以后一些Flask插件，比如Flask-migrate、Flask-SQLAlchemy如果报错了，那么flask
-#可以通过这个参数找到具体的报错位置
-app = Flask(__name__)
+    #创建一个Flask对象，传递一个__name__参数进去
+    #__name__参数的作用：
+    #1. 可以规定模板和静态文件的查找路径
+    #2. 以后一些Flask插件，比如Flask-migrate、Flask-SQLAlchemy如果报错了，那么flask
+    #可以通过这个参数找到具体的报错位置
+    app = Flask(__name__)
 
-app.config.update({
-    # 开启debug模式，方便查看错误
-    "DEBUG": True,
-    # 开启自动加载模式，修改静态资源后，无需重启，自动加载最新静态资源。
-    "TEMPLATES_AUTO_RELOAD": True
-})
+    app.config.update({
+        # 开启debug模式，方便查看错误
+        "DEBUG": True,
+        # 开启自动加载模式，修改静态资源后，无需重启，自动加载最新静态资源。
+        "TEMPLATES_AUTO_RELOAD": True
+    })
 
-# @app.route('/') 是一个装饰器
-# @app.route('/') 就是将url中的/映射到index这个视图函数上面
-# 以后你访问我这个网站的/目录的时候，会执行index这个函数，然后将这个函数的返回值返回给浏览器
-@app.route('/')
-def index():
-    return render_template('index.html')
+    # @app.route('/') 是一个装饰器
+    # @app.route('/') 就是将url中的/映射到index这个视图函数上面
+    # 以后你访问我这个网站的/目录的时候，会执行index这个函数，然后将这个函数的返回值返回给浏览器
+    @app.route('/')
+    def index():
+        return render_template('index.html')
 
-@app.route('/my_list/')
-def my_list():
-    return 'My list'
+    @app.route('/my_list/')
+    def my_list():
+        return 'My list'
 
 
-# 如果这个文件作为主文件运行，那么就执行app.run()方法
-# 也就是启动这个网站
-if __name__=='__main__':
-   app.run()
+    # 如果这个文件作为主文件运行，那么就执行app.run()方法
+    # 也就是启动这个网站
+    if __name__=='__main__':
+    app.run()
 
 ```
 
-## 第二章：
+## 第二章：Flask URL
 
-介绍：
+### 2.1 Debug模式
+
+#### 2.1.1 为什么需要开启debug模式：
+
+1. 如果开启了debug模式， 那么在代码中如果抛出了异常，在浏览器的页面中可以看到具体的错误信息，以及具体的错误代码位置。方便开发者调试
+2. 如果开启了debug模式，那么以后再`Python`代码中修改了任何代码，只要按住 `ctrl + s`， `flask`就会自动的重新加载整个网站，不需要手动点击重新运行。
+
+#### 2.1.2 配置debug模式的四中方式
+
+1. 在 `app.run()`中传递一个参数`debug=True`就可以打开`debug`模式。
+2. 给`app.debug=True`,也可以开启`debug`模式
+3. 通过配置参数的形式设置debug模式，`app.config.update(DEBUG=True)`
+4. 通过配置参数的形式设置debug模式，`app.config.from_object(config)`
+
+#### 2.1.3 pin码
+
+如果想要在网页上调试代码，那么应该输入`pin`码。
+
+### 2.2 config 配置文件
+
+#### 2.2.1 使用`app.config.from_object`的方式加载配置文件
+
+1. 导入`import config`。
+2. 使用`app.config.from_object(config)`
+
+#### 2.2.2 使用`app.config.from_pyfile`的方式加载配置文件
+
+这种方式不需要`import`，直接使用`app.config.from_pyfile('config.py')`就可以了。
+> 注意：这个地方必须要写文件的全名，后缀不能少。
+
+1. 这种方式，加载配置文件，不局限于使用 `py`文件，普通的`txt`文件同样也适合
+2. 这种方式可以传递 `silent=True`， 那么静态文件没有找到的时候不会抛出异常。
+
+
+### 2.3 URL与试图函数映射
+
+#### 2.3.1 传递参数
+
+传递参数的语法是：`/<参数名>/`，然后在试图函数中，也要定义同名的参数
+
+#### 2.3.2 参数的数据类型
+
+1. 如果没有指定具体的数据类型，那么默认就是使用 `string` 数据类型
+2. `int` 数据类型只能传递`int`类型
+3. `float` 数据类型只能传递`float`类型
+4. `path` 数据类型和`string`有点类似，都是可以接受任意的字符串，但是 `path`可以接受路径，也就是说可以包含斜杠。
+5. `uuid` 数据类型只能接受符合 `uuid`的字符串。 `uuid`是一个全宇宙都唯一的字符串。一般可以用来做表的主键
+6. `any`数据类型可以在一个URL中指定多个路径，
+
+```python
+@app.route('/<any(blog, user):url_path>/<id>')
+def detail(url_path, id):
+    if url_path == 'blog':
+        return 'blog detail'
+    else:
+        return 'user detail'
+```
+
+#### 2.3.3 接收用户传递参数的方式
+
+1. 第一种，就是上面讲的方式（将参数嵌入到路径中）;` 优势：方便搜索引`擎抓取
+2. 第二种，就是使用查询的方式，就是通过`?key=value`的形式传递的。
+```python
+@app.route('/d/')
+def d():
+    wd = request.args.get('wd')
+    return "您传递的参数是{}".format(wd)
+```
+3. 如果你的页面想要做`SEO`优化，就是被搜索引擎搜索到，那么就推荐使用第一种方式（path的方式），如果不在乎搜索引擎优化，那么就可以使用第二种。（查询字符串的方式）
+
+### 2.4 url_for URL转换器
+
+#### 2.4.1 基本使用
+
+`url_for`第一个参数，应该是试图函数的名字的字符串，后面的参数就是传递给URL。如果传递的参数之前在 URL 中已经定义了，那么这个参数就会被当成 path 的形式给 URL ，如果这个参数之前没有在 URL 中定义，那么奖变成查询字符串的形式放到 URL 中。
+```python
+    @app.route('/list/<page>/')
+    def my_list(page):
+        return 'my_list'
+    print(url_for('my_list', page=1, count=2))
+    # 构建出来的URL：/my_list/1/?count=2
+```
+
+#### 2.4.2 为什么需要url_for
+
+1. 将来如果修改了 URL ，但没有修改该 URL 对应的函数名， 就不用到处去替换 URL 了
+2. url_for 会自动的处理那些特殊的字符，不需要手动处理。
+```python 
+    url = url_for('login', next='/')
+    # 会自动的将/编码，不需要手动去处理
+    # url: /login/?next=%2F
+```
+> 强烈建议以后再使用URL的时候，使用url_for来反转URL。
+
+
+#### 2.4.3 自定义URL转换器
+
+##### 2.4.3.1自定义URL转换器的方式
+1. 导入`from werkzeug.routing import BaseConverter` 实现一个类，继承自`BaseConverter`
+2. 在自定义的类中，重写 `regex`， 也就是这个变量的正则表达式
+3. 将自定义的类，映射到`app.url_map.converters`上。例如：
+```python
+    class TelephoneConverter(BaseConverter):
+        # 一个URL中含有手机号码的变量，必须先定这个变量格式满足手机号码的格式
+        regex = r'1[85734]\d{9}'
+    # 把写好的参数类型注册到converters中
+    app.url_map.converters['tel'] = TelephoneConverter
+```
+
+##### 2.4.3.2 `to_python`的作用
+
+会将URL中的参数经过解析后传递给视图函数。这个方法的返回值，将会传递到view中作为参数
+
+##### 2.4.3.3 `to_url`的作用
+
+这个方法的返回值，会将在调用url_for函数的时候生成符合要求的URL形式。
+
+
+#### 2.4.4 必会的小细节知识点
+
+##### 2.4.4.1 在局域网让其他电脑访问我的网站
+
+如果在一个局域网下的其他电脑访问自己电脑上的Flask网站，那么可以设置 `host='0.0.0.0'`才能访问到。
+
+##### 2.4.4.2 指定端口号
+
+Flask 默认使用5000端口，如果想更换端口，那么可以设置`post=9000`.
+
+##### 2.4.4.3 URL唯一
+
+在定义URL的时候，一定要记得在最后加一个斜杠
+1. 如果不加斜杠，那么在浏览器中访问这个URL的时候，如果最后加了斜杠，那么就访问不到，这样用户体验不好
+2. 搜索引擎会将不加斜杠的和加斜杠的视为两个不同的URL，而其实加和不加斜杠的都是同一个URL， 那么就会给搜索引擎造成一个误解，加了斜杠，就不会出现没有斜杠的情况。
+
+##### 2.4.4.4 get请求和post请求
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
