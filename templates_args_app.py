@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
 
-    return render_template('index.html', name='zhiliao')
+    return render_template('templates_args_index.html', name='zhiliao')
 
 
 if __name__ == '__main__':
