@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 
-from flask import Flask
+from flask import Flask, Response
 
 
 app = Flask(__name__)
