@@ -15,7 +15,12 @@ def hello_world():
         'age': 18,
         'country': 'china'
     }
-    return render_template('templates_args_index.html', context=context)
+    count = {
+        'name': 'bjweiqm',
+        'age': 19,
+        'country': 'china'
+    }
+    return render_template('templates_args_index.html', context=context, **count)
 
 
 if __name__ == '__main__':
