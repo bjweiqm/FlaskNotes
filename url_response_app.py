@@ -40,5 +40,11 @@ def list1():
     return 'list1', 200, {'X-NAME': 'zhiliao'}
 
 
+@app.route('/list2/')
+def list3():
+
+    return {'username': 'zhiliao', 'age': 18}
+
+
 if __name__ == '__main__':
     app.run()
