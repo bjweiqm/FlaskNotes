@@ -23,6 +23,8 @@ class JsonReponse(Response):
         这个方法只有视图函数返回非字符串、元组、Response对象，才会调用。
         '''
         print(response)
+        print(type(response))
+        return Response('hello')
 
 @app.route('/')
 def index():
