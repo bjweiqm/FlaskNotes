@@ -373,6 +373,8 @@ def index():
 2. 如果不想把模板文件放在`templates`目录下，可以在Flask初始化的时候指定`template_folder`的路径，来指定模板的路径
 
 
+### 3.2 模板传参
+
 
 
 
