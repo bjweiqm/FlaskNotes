@@ -46,9 +46,17 @@ def list1():
 
 
 @app.route('/list2/')
-def list3():
+def list2():
 
     return {'username': 'zhiliao', 'age': 18}
+
+@app.route('/list3/')
+def list3():
+    # 这种方法可以设置cookie
+    res = Response('hello')
+    res.set_cookie('country', 'china')
+    return res
+    # return Response('hello')
 
 
 if __name__ == '__main__':
