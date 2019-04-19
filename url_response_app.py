@@ -26,7 +26,7 @@ class JsonReponse(Response):
         # print(type(response))
         if isinstance(response, dict):
             response = jsonify(response)
-        return super(JsonReponse, cls).force_type(response, environ=None)
+        return super(JsonReponse, cls).force_type(response, environ)
         # return Response('hello')
 
 
