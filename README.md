@@ -348,7 +348,7 @@ def index():
 
 
     @app.route('/list2/')
-    def list3():
+    def list2():
 
         return {'username': 'zhiliao', 'age': 18}
 
