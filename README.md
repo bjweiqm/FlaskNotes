@@ -273,6 +273,8 @@ if __name__ == '__main__':
     app.run()
 ```
 
+### 2.6 关于响应(Response)
+
 
 
 
