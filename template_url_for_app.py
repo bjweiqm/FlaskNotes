@@ -15,5 +15,11 @@ def index():
     return render_template('template_url_for_index.html')
 
 
+@app.route('/login/')
+def login():
+
+    return render_template('template_url_for_login.html')
+
+
 if __name__ == '__main__':
     app.run()
