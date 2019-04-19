@@ -276,9 +276,9 @@ if __name__ == '__main__':
 ### 2.6 关于响应(Response)
 
 试图函数的返回值会被自动转换为一个响应对象，Flask的转换逻辑如下：
-- 如果返回的是一个合法的响应对象，则直接返回。
+- 如果返回的是一个合法的响应对象，则直接返回。「其实底层将这个字符串包装成了一个 `Response`对象。」
 - 如果返回的是一个字符串， 那么Flask会重新创建一个`werkzeug.wrappers.Response`对象， Response将该字符串作为主体，状态码为200， MIME类型为：text/html， 然后返回Response对象。
-- 如果返回的是一个元组，元组中的数据类型是(response.status.headers).status值会覆盖默认的200状态码， headers可以是一个列表或字典，作为额外的消息头。
+- 如果返回的是一个元组，元组中的数据类型是(response.status.headers).status值会覆盖默认的200状态码， headers可以是一个列表或字典，作为额外的消息头。「元组的形式是(响应体,状态码, 头部信息)，也不一定三个都要，写两个也是可以的。返回的元组，在底层也是包装成了`Response`对象」
 - 如果以上条件都不满足，Flask会假设返回值是一个合法的`wsgi`应用程序，并通过 `Response.force_type(rv, request.environ)`转换为一个请求对象。
 
 #### 2.6.1 直接用Response创建
