@@ -10,9 +10,9 @@ app.debug = True
 
 
 @app.route('/')
-def hello_world():
+def index():
 
-    return render_template()
+    return render_template('template_url_for_index.html')
 
 
 if __name__ == '__main__':
