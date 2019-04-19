@@ -4,7 +4,7 @@
 flask = werkzeng + sqlalchemy + jinja2
 '''
 
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 # from werkzeug.wrappers import Response
 
 
@@ -22,8 +22,10 @@ class JsonReponse(Response):
         '''
         这个方法只有视图函数返回非字符串、元组、Response对象，才会调用。
         '''
-        print(response)
-        print(type(response))
+        # print(response)
+        # print(type(response))
+        if isinstance(response, dict):
+            response = jsonify(response)
         return Response('hello')
 
 app.response_class = JsonReponse
