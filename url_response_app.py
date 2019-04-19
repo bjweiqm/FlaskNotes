@@ -12,6 +12,9 @@ app = Flask(__name__)
 app.debug = True
 
 
+# 将视图函数中返回字典，转换成json对象然后返回
+# restful-api
+
 @app.route('/')
 def index():
 
