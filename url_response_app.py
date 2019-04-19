@@ -21,7 +21,7 @@ def index():
 @app.route('/list1/')
 def list1():
 
-    return {'zhangsan': 'lisi'}
+    return 'list1', 200, {'X-NAME': 'zhiliao'}
 
 
 if __name__ == '__main__':
