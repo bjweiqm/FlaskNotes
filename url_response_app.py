@@ -14,6 +14,11 @@ def index():
 
     return 'holle world !!'
 
+@app.route('/list1/')
+def list1():
+
+    return {'zhangsan': 'lisi'}
+
 
 if __name__ == '__main__':
     app.run()
