@@ -14,6 +14,7 @@ app.debug = True
 @app.route('/')
 def index():
 
+    # Response("hello world", status=200, mimetype="text/html")
     return 'holle world !!'
 
 @app.route('/list1/')
