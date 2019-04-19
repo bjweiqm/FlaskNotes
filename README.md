@@ -281,6 +281,18 @@ if __name__ == '__main__':
 - 如果返回的是一个元组，元组中的数据类型是(response.status.headers).status值会覆盖默认的200状态码， headers可以是一个列表或字典，作为额外的消息头。
 - 如果以上条件都不满足，Flask会假设返回值是一个合法的`wsgi`应用程序，并通过 `Response.force_type(rv, request.environ)`转换为一个请求对象。
 
+#### 2.6.1 直接用Response创建
+
+```python
+from werkzeng.wrappers import Response
+
+@app.route('/')
+def index():
+    resp = Response(response='about page', status=200, content_type='text/html;charset=utf-8')
+    return resp
+
+```
+
 
 
 
