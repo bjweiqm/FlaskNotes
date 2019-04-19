@@ -293,6 +293,15 @@ def index():
 
 ```
 
+#### 自定义响应
+
+- 必须继承自 Response类。
+- 必须实现force_type(cls,rv,environ=None)
+
+```python
+
+```
+
 
 
 
