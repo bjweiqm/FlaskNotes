@@ -365,6 +365,12 @@ def index():
 
 ```
 
+## 第三章：模板 templates
+
+### 3.1 模板预热
+
+1. 在渲染模板的时候，默认会从项目目录下的 `templates`目录下查找模板。
+2. 如果不想把模板文件放在`templates`目录下，可以在Flask初始化的时候指定`template_folder`的路径，来指定模板的路径
 
 
 
