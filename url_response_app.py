@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
+'''
+flask = werkzeng + sqlalchemy + jinja2
+'''
 
 from flask import Flask, Response
 
