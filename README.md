@@ -297,6 +297,7 @@ def index():
 
 - 必须继承自 Response类。
 - 必须实现force_type(cls,rv,environ=None)
+- 必须制定app.response_class 为你自定义的Response
 
 ```python
 

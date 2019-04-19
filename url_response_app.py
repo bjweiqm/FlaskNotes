@@ -26,6 +26,8 @@ class JsonReponse(Response):
         print(type(response))
         return Response('hello')
 
+app.response_class = JsonReponse
+
 @app.route('/')
 def index():
 
