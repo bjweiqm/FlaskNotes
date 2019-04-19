@@ -1,3 +1,4 @@
+[toc]
 # FlaskNotes
 
 Flask Nots
@@ -208,6 +209,8 @@ def d():
 
 #### 2.4.4 必会的小细节知识点
 
+url_detall.py
+
 ##### 2.4.4.1 在局域网让其他电脑访问我的网站
 
 如果在一个局域网下的其他电脑访问自己电脑上的Flask网站，那么可以设置 `host='0.0.0.0'`才能访问到。
@@ -224,10 +227,51 @@ Flask 默认使用5000端口，如果想更换端口，那么可以设置`post=9
 
 ##### 2.4.4.4 get请求和post请求
 
+在网络请求中有许多请求方式，比如：`get`、`post`、`delete`、`put`请求等，最常用的就是 `get` 和 `]` 请求。
+1. `get` 请求：只会在服务器上获取资源，不会更改服务器的状态，这种方式推荐使用get请求。
+2. `post`请求： 会给服务器提交一些数据或文件，一般post请求是会对服务器的状态产生影响，那么这种请求推荐使用post请求。
+3. 关于传参方式
+   1. `get`：把参数请求放到URL中，通过`?xxx=xxx`的形式传输的。
+   2. `post`：会把参数放到`Form Data`中。
+4. 在`Flask`中，`route`方法，默认将只能使用 get 的方式请求这个URL， 如果想要设置自己的请求方式，那么应该传递一个 `methods` 参数
+
+### 2.5 页面跳转和重定向
+
+重定向分为永久性重定向和暂时性重定向，在页面上体现的操作就是浏览器会从一个页面自动跳转到另外一个页面。比如用户访问了一个需要权限的页面，但是该用户当前并没有登录，因此我们应该给他重定向到登录页面。
+- 永久性重定向：HTTP 的状态码是 301， 多用于旧网站被废弃了要转到一个新的网址确保用户访问。
+- 暂时性重定向：HTTP 的状态码是 302， 表示页面的暂时性跳转。比如访问一个需要权限的网站，如果当前用户没有登录，应该重定向到登录页面，这种情况下，应该使用暂时性重定向。
+  
+在Flask中，重定向是通过 `flask.redirect(location, code=302)`这个函数来实现，`location`表示要重定向到的URL， 应该配合之前讲的 `url_for()` 函数来使用， code 表示采用了那个重定向，默认是302 既暂时性重定向，可以修改为301来实现永久性重定向。
+
+```python
+from flask import Flask,redirect, request, url_for
 
 
+app = Flask(__name__)
+app.debug = True
 
+@app.route('/')
+def index():
 
+    return "hello index"
+
+@app.route('/login/')
+def login():
+
+    return 'login Page'
+
+@app.route('/profile/')
+def profile():
+
+    if request.args.get('name'):
+        return '欢迎来到个人中心'
+    else:
+        # return redirect("/login/")
+        return redirect(url_for('login'), code=302)
+
+if __name__ == '__main__':
+    app.run()
+```
 
 
 
