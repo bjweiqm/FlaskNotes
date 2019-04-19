@@ -25,6 +25,7 @@ class JsonReponse(Response):
         # print(response)
         # print(type(response))
         if isinstance(response, dict):
+            # jsonify 除了将字典转换为json对象，还将该对象包装成了一个Response对象。
             response = jsonify(response)
         return super(JsonReponse, cls).force_type(response, environ)
         # return Response('hello')
