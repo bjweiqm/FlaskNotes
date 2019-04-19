@@ -15,7 +15,7 @@ def hello_world():
         'age': 18,
         'country': 'china'
     }
-    return render_template('templates_args_index.html', name='zhiliao')
+    return render_template('templates_args_index.html', context=context)
 
 
 if __name__ == '__main__':
