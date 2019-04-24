@@ -3,13 +3,13 @@
 # 目录
 
 * [横线](#横线)
-* [第一章：Flask入门](#第一章： Flask入门)
+* [第一章：Flask入门](#第一章：Flask入门)
 
 # FlaskNotes
 
 Flask Nots
 
-## 第一章： Flask入门
+## 第一章：Flask入门
 
 ### 1.1 URL详解
 
