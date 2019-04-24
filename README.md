@@ -407,7 +407,7 @@ def index():
 - `float(value)`: 将值转换为float型
 - `lower(value)`: 将字符串转化为小写
 - `upper(value)`: 将字符串转换为大写
-- `tojson()`: 
+- `tojson()`: 将变量输出为JSON字符串。这个在配合Javascript使用时非常有用。我们延用上节字典列表操作中定义的”users”变量
 - ``
 
 
