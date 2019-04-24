@@ -393,8 +393,17 @@ def index():
 
 #### 4.3.2 常用过滤器
 
-- abs(value): 返回一个数值的绝对值。
-- default(value, default_value, boolean=false)
+- `abs(value)`: 返回一个数值的绝对值。
+- `default(value, default_value, boolean=false)`: 如果当前变量没有值，则会使用参数中的值来代替。`name|default('xiaotuo')` -- 如果name不存在，这会使用 `xiaotuo`来替代。boolean=False默认是只有这个变量为undefined的时候才会使用default中的值，如果想使用Python的形式判断是否为false，则可以传递boolean=true。也可以使用 or 来替换
+- `escape(value) 或 e`: 转移字符，会将 <、>等符号转移成HTML中的符号。例如：content|escape 或 content|e 
+- `first(value)`: 返回序列的第一个元素。`name|first`
+- `format(value, *args, **kwargs)`: 格式化字符串。例如：
+    - >{{'%s' - '%s'|format('Hello?', 'Foo!')}} 将输出：Hello? - Foo!
+- ``
+- ``
+- ``
+- ``
+- ``
 
 
 
