@@ -399,10 +399,15 @@ def index():
 - `first(value)`: 返回序列的第一个元素。`name|first`
 - `format(value, *args, **kwargs)`: 格式化字符串。例如：
     - >{{'%s' - '%s'|format('Hello?', 'Foo!')}} 将输出：Hello? - Foo!
-- ``
-- ``
-- ``
-- ``
+- `last(value)`: 返回序列的最后一个元素。
+- `length(value)`: 返回序列或字典的长度
+- `join(value, d=u)`: 将一个序列用d这个参数的值拼接成字符串。
+- `safe(value)`: 如果开启了全局转义，那么safe过滤器会将变量关掉转移。
+- `int(value)`: 将值转换为int型
+- `float(value)`: 将值转换为float型
+- `lower(value)`: 将字符串转化为小写
+- `upper(value)`: 将字符串转换为大写
+- `tojson()`: 
 - ``
 
 
