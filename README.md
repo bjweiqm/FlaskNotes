@@ -408,7 +408,18 @@ def index():
 - `lower(value)`: 将字符串转化为小写
 - `upper(value)`: 将字符串转换为大写
 - `tojson(value)`: 将变量输出为JSON字符串。这个在配合Javascript使用时非常有用。我们延用上节字典列表操作中定义的”users”变量
-- `trim(value)`
+- `trim(value)`: 去除字符串前后的空白字符
+- `reverse(value)`: 字符串反转
+- `round(value)`: 
+  - 四舍五入取整，返回13.0。例：{{ 12.8888 | round }}。
+  - 向下截取到小数点后2位，返回12.88。例：{{ 12.8888 | round(2, 'floor') }}。
+- ``
+- ``
+- ``
+- ``
+- ``
+- ``
+- ``
 
 
 
