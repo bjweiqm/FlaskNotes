@@ -9,8 +9,6 @@
 
 # FlaskNotes
 
-Flask Nots
-
 ## 第一章：Flask入门
 
 ### 1.1 URL详解
