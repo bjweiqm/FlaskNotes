@@ -1,12 +1,5 @@
 [toc]
 
-# 目录
-
-* [第一章：Flask入门](#flask入门)
-* [第二章：FlaskURL](#flaskURL)
-* [第一章：Flask入门](#第一章：Flask入门)
-* [第一章：Flask入门](#第一章：Flask入门)
-
 # FlaskNotes
 
 ## 第一章：Flask入门
