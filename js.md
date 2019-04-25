@@ -104,7 +104,10 @@ person.zipcode; // null
 
 ### 2. 字符串操作
 
-
+1. `toUpperCase()`把一个字符串全部变为大写：
+2. `toLowerCase()`把一个字符串全部变为小写：
+3. `indexOf()`会搜索指定字符串出现的位置：
+4. `substring()`返回指定索引区间的子串：
 
 
 
