@@ -7,7 +7,10 @@ console.log(x)
 console.log('zhgs\nlsjfl\nlsjflsj')
 */
 
-
+var name = "小明";
+var age = 19;
+var message = '你好' + name + '你的年龄' + age + '岁了！';
+console.log(message)
 
 
 
