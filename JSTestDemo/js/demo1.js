@@ -7,14 +7,14 @@ console.log(x)
 console.log('zhgs\nlsjfl\nlsjflsj')
 */
 
-var name = "小明";
-var age = 19;
-// var message = '你好' + name + '你的年龄' + age + '岁了！';
-// console.log(message);
+// var name = "小明";
+// var age = 19;
+// // var message = '你好' + name + '你的年龄' + age + '岁了！';
+// // console.log(message);
 
 
-var mess = '你好 ${name} 你今年已经${age}岁了，该上学了小伙，哈哈哈哈哈'
-console.log(mess);
+// var mess = '你好 ${name} 你今年已经${age}岁了，该上学了小伙，哈哈哈哈哈'
+// console.log(mess);
 
 // var len = "Hello, world!"
 // console.log(len.length)
@@ -32,4 +32,9 @@ console.log(mess);
 // } else {
 //     console.log('False' + '与上面区分')
 // }
+
+
+
+name = 'angela'
+
 
