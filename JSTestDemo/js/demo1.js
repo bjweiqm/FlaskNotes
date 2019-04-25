@@ -61,7 +61,7 @@ console.log('is' in ren)
 
 var x = 0;
 var i;
-for (i = 1; i > 11; i ++){
+for (i = 1; i < 11; i ++){
     x = i * i++
     console.log(i * i++)
 }
