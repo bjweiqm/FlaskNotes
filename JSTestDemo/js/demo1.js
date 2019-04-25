@@ -59,10 +59,11 @@ console.log(ren["middle-school"])
 
 console.log('is' in ren)
 
-var x = 0;
+var x = 1;
 var i;
 for (i = 1; i < 11; i ++){
-    x = i * i++
+    console.log(i)
+    x = x * i++
     console.log(i * i++)
 }
 console.log(x)
