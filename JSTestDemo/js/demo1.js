@@ -23,5 +23,9 @@ if (2 > 1) {
     console.log('False')
 }
 
-
+if (1 == '1') {
+    console.log('True' + '与上面区分')
+} else {
+    console.log('False' + '与上面区分')
+}
 
