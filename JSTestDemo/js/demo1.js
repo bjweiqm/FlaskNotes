@@ -64,7 +64,7 @@ var i;
 for (i = 1; i < 11; i ++){
     console.log(i)
     console.log('----------')
-    console.log(i * x)
+    console.log(i * i++)
     // x = x * i++
     // console.log(i * i++)
 }
