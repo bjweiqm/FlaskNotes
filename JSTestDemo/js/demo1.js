@@ -42,16 +42,17 @@ console.log('zhgs\nlsjfl\nlsjflsj')
 
 
 var ren = {
-    'name': 'xiaoming',
+    name: 'xiaoming',
     'age': 18,
     'birth': 1990,
     'height': 1.70,
     'weight': 65,
-    'score': null,
+    score: null,
 }
 
 console.log(ren.name)
 console.log(ren.age)
 console.log(ren.height)
+console.log(ren.score)
 
 
