@@ -48,11 +48,13 @@ var ren = {
     'height': 1.70,
     'weight': 65,
     score: null,
+    'middle-school': 'No.1 Middle School'
 }
 
 console.log(ren.name)
 console.log(ren.age)
 console.log(ren.height)
 console.log(ren.score)
+console.log(ren["middle-school"])
 
 
