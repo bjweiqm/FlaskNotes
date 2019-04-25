@@ -15,7 +15,7 @@ console.log(message)
 var len = "Hello, world!"
 console.log(len.length)
 
-
+console.log(len[7])
 
 
 
