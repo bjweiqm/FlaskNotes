@@ -57,4 +57,6 @@ console.log(ren.height)
 console.log(ren.score)
 console.log(ren["middle-school"])
 
+console.log('is' in ren)
+
 
