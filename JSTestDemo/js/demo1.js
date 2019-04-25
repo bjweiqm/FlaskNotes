@@ -17,5 +17,11 @@ console.log(len.length)
 
 console.log(len[5])
 
+if (2 > 1) {
+    console.log('True')
+} else {
+    console.log('False')
+}
+
 
 
