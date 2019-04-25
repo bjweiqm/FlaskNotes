@@ -28,7 +28,9 @@ false
 
 ```javascript
 
-
+&& // and 与运算
+|| // or  或运算
+!  // not 非运算
 ```
 
 
