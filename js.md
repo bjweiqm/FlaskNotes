@@ -1,8 +1,8 @@
 ## JavaScript
 
-### 数据类型
+### 1. 数据类型
 
-#### Number
+#### 1.1 Number
 
 JavaScript不区分整数和浮点数，统一用Number表示，以下都是合法的Number类型：
 
@@ -16,7 +16,7 @@ NaN; // NaN表示Not a Number，当无法计算结果时用NaN表示
 Infinity; // Infinity表示无限大，当数值超过了JavaScript的Number所能表示的最大值时，就表示为Infinity
 ```
 
-#### 布尔值
+#### 1.2 布尔值
 
 ```JavaScript
 true  
@@ -24,7 +24,12 @@ false
 
 ```
 
-#### 运算
+#### 1.3 运算
+
+```javascript
+
+
+```
 
 
 
