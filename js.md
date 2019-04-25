@@ -56,7 +56,12 @@ JavaScript的设计者希望用null表示一个空的值，而undefined表示值
 
 #### 1.6 数组
 
+数组是一组按顺序排列的集合，集合的每个值称为元素。JavaScript的数组可以包括任意数据类型。例如：
 
+```javascript
+[1, 2, 3.14, 'Hello', null, false, true]
+
+```
 
 
 
