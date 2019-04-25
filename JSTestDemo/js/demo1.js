@@ -12,7 +12,7 @@ var age = 19;
 var message = '你好' + name + '你的年龄' + age + '岁了！';
 console.log(message);
 
-console.log('你好 你今年已经 岁了，该上学了小伙，哈哈哈哈哈');
+console.log('你好${name} 你今年已经${age}岁了，该上学了小伙，哈哈哈哈哈');
 
 // var len = "Hello, world!"
 // console.log(len.length)
@@ -29,5 +29,5 @@ console.log('你好 你今年已经 岁了，该上学了小伙，哈哈哈哈�
 //     console.log('True' + '与上面区分')
 // } else {
 //     console.log('False' + '与上面区分')
-}
+// }
 
