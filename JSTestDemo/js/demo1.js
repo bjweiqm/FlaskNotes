@@ -36,5 +36,8 @@ console.log('zhgs\nlsjfl\nlsjflsj')
 
 
 name = 'angela'
+na = name.toUpperCase()
+console.log(na)
+console.log(name.toLowerCase())
 
 
