@@ -35,9 +35,23 @@ console.log('zhgs\nlsjfl\nlsjflsj')
 
 
 
-name = 'angela'
-na = name.toUpperCase()
-console.log(na)
-console.log(name.toLowerCase())
+// name = 'angela'
+// na = name.toUpperCase()
+// console.log(na)
+// console.log(name.toLowerCase())
+
+
+var ren = {
+    'name': 'xiaoming',
+    'age': 18,
+    'birth': 1990,
+    'height': 1.70,
+    'weight': 65,
+    'score': null,
+}
+
+console.log(ren.name)
+console.log(ren.age)
+console.log(ren.height)
 
 
