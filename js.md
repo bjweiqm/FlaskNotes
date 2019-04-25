@@ -62,7 +62,13 @@ JavaScript的设计者希望用null表示一个空的值，而undefined表示值
 [1, 2, 3.14, 'Hello', null, false, true]
 
 ```
+上述数组包含6个元素。数组用[]表示，元素之间用,分隔。
 
+另一种创建数组的方法是通过Array()函数实现：
+
+```javascript
+new Array(1, 2, 3) //创建了数组 [1, 2, 3]
+```
 
 
 
