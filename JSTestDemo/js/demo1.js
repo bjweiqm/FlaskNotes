@@ -63,8 +63,8 @@ var x = 1;
 var i;
 for (i = 1; i < 11; i ++){
     console.log(i)
-    x = x * i++
-    console.log(i * i++)
+    // x = x * i++
+    // console.log(i * i++)
 }
 console.log(x)
 
