@@ -81,17 +81,21 @@ for (i = 1; i < 11; i ++){
 // }
 
 
-var arr = ['Bart', 'Lisa', 'Adam'];
+// var arr = ['Bart', 'Lisa', 'Adam'];
 
-for(i in arr){
-    console.log('hello, ' + arr[i])
-    console.log('hello, ' + i)
-}
+// for(i in arr){
+//     console.log('hello, ' + arr[i])
+//     console.log('hello, ' + i)
+// }
 
-for(i=0; i < arr.length; i++){
-    console.log(arr[i])
-}
+// for(i=0; i < arr.length; i++){
+//     console.log(arr[i])
+// }
 
+'use strict';
+var m = new Map();
+var s = new Set();
+console.log('你的浏览器支持Map和Set！');
 
 
 
