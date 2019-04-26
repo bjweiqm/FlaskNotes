@@ -82,4 +82,6 @@ var s = ['a', 'b', 'c']
 
 if ('a' in s){
     console.log('判断in是否可以使用');
+} else{
+    console.log('None')
 }
