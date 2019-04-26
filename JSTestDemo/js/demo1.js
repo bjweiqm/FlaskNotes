@@ -75,7 +75,11 @@ for (i = 1; i < 11; i ++){
 
 var s = ['a', 'b', 'c']
 
-for(i in s){
-    console.log(i)
-    console.log(s[i])
+// for(i in s){
+//     console.log(i)
+//     console.log(s[i])
+// }
+
+if ('a' in s){
+    console.log('判断in是否可以使用');
 }
