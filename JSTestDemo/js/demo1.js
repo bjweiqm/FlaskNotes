@@ -71,3 +71,11 @@ for (i = 1; i < 11; i ++){
 // console.log(x)
 
 */
+
+
+var s = ['a', 'b', 'c']
+
+for(i in s){
+    console.log(i)
+    console.log(s[i])
+}
