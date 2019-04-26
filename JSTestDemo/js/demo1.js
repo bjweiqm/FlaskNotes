@@ -27,6 +27,7 @@ var xiaoming = {
 };
 
 console.log(xiaoming.age)
+console.log(xiaoming.age())
 
 
 // test(10, 20, 30, 40)
