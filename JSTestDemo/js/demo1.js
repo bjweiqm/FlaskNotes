@@ -73,13 +73,20 @@ for (i = 1; i < 11; i ++){
 */
 
 
-var s = ['a', 'b', 'c']
+// var s = ['a', 'b', 'c']
 
 // for(i in s){
 //     console.log(i)
 //     console.log(s[i])
 // }
 
+
+var arr = ['Bart', 'Lisa', 'Adam'];
+
+for(i in arr){
+    console.log('hello, ' + arr[i])
+    console.log('hello, ' + i)
+}
 
 
 
