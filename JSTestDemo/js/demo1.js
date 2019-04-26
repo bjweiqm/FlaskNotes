@@ -92,10 +92,17 @@ for (i = 1; i < 11; i ++){
 //     console.log(arr[i])
 // }
 
-'use strict';
-var m = new Map();
-var s = new Set();
-console.log('你的浏览器支持Map和Set！');
+// 'use strict';
+// var m = new Map();
+// var s = new Set();
+// console.log('你的浏览器支持Map和Set！');
 
+
+key = {
+    1: 'jslfe',
+    2: 'fjels',
+}
+
+console.log(key[1])
 
 
