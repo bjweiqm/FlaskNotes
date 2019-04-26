@@ -6,7 +6,18 @@ function test(x){
     }
 }
 
-test(10, 20, 30, 40)
+function foo() {
+    var sum = 0;
+    for (let i=0; i<100; i++) {
+        sum += i;
+    }
+    // SyntaxError:
+    i += 1;
+}
+
+foo()
+
+// test(10, 20, 30, 40)
 // console.log(i)
 
 // alert('外部引入文件。');
