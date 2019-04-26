@@ -15,7 +15,7 @@ function foo() {
     i += 1;
 }
 
-foo()
+// foo()
 
 // test(10, 20, 30, 40)
 // console.log(i)
