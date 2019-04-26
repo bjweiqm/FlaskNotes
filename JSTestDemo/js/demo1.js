@@ -40,7 +40,7 @@ console.log('zhgs\nlsjfl\nlsjflsj')
 // console.log(na)
 // console.log(name.toLowerCase())
 
-
+/*
 var ren = {
     name: 'xiaoming',
     'age': 18,
@@ -70,4 +70,4 @@ for (i = 1; i < 11; i ++){
 }
 // console.log(x)
 
-
+*/
