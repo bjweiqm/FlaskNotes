@@ -2,7 +2,7 @@
 function test(x){
     console.log('x = ' + x)
     for(i=0; i < arguments.length; i++){
-        
+        console.log('arg' + i + '=' + arguments[i])
     }
 }
 
