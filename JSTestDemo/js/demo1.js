@@ -2,9 +2,11 @@
 function test(x){
     console.log('x = ' + x)
     for(i=0; i < arguments.length; i++){
-        console.log('arg' + i + '=' + arguments[i])
+        console.log('arg ' + i + '=' + arguments[i])
     }
 }
+
+test(10, 20, 30, 40)
 
 
 // alert('外部引入文件。');
