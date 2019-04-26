@@ -98,11 +98,14 @@ for (i = 1; i < 11; i ++){
 // console.log('你的浏览器支持Map和Set！');
 
 
-key = {
-    1: 'jslfe',
-    2: 'fjels',
-}
+// key = {
+//     1: 'jslfe',
+//     2: 'fjels',
+// }
 
-console.log(key[1])
+// console.log(key[1])
 
+
+
+var m = new Map([['zhangsan', 99], ['lisi', 89], ['wangwu', 98]])
 
