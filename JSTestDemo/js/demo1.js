@@ -109,3 +109,4 @@ for (i = 1; i < 11; i ++){
 
 var m = new Map([['zhangsan', 99], ['lisi', 89], ['wangwu', 98]])
 
+console.log(m.get('zhangsan'))
