@@ -80,8 +80,6 @@ var s = ['a', 'b', 'c']
 //     console.log(s[i])
 // }
 
-if ('a' in s){
+for ('a' in s){
     console.log('判断in是否可以使用');
-} else{
-    console.log('None')
-}
+} 
