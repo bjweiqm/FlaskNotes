@@ -17,6 +17,16 @@ function foo() {
 
 // foo()
 
+var xiaoming = {
+    name: '小明',
+    birth: 1990,
+    age: function () {
+        var y = new Date().getFullYear();
+        return y - this.birth;
+    }
+};
+
+console.log(xiaoming.age)
 
 
 // test(10, 20, 30, 40)
