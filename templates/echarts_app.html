@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Echarts</title>
+    <!-- <script src="/static/js/echarts.js"></script> -->
+    <script src="{{ url_for('static', filename='js/echarts.js') }}" charset="utf-8"></script>
+</head>
+<body>
+    <div id="index2" style="width:600px; height: 400px;"></div>
+    <script type="text/javascript">
+        var my_ech = echarts.init(document.getElementById('index2'));
+        
+        var opt = JSON.parse('{{ data|tojson }}')
+        
+        my_ech.setOption(opt);
+
+    </script>
+</body>
+</html>

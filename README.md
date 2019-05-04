@@ -1,9 +1,9 @@
 [toc]
+
 # FlaskNotes
 
-Flask Nots
-
-## 第一章： Flask入门
+## 第一章：Flask入门
+flask入门
 
 ### 1.1 URL详解
 
@@ -87,7 +87,7 @@ Flask的灵活度非常之高，他不会帮你做太多的决策，即使已经
 
 ```
 
-## 第二章：Flask URL
+## 第二章：FlaskURL
 
 ### 2.1 Debug模式
 
@@ -382,11 +382,41 @@ def index():
 
 模板中的`url_for`跟我们后台视图函数中的 `url_for`使用起来基本是一模一样的，也是传递视图函数的名字，也可以传递参数。使用的时候，需要在`url_for`左右加上花括号`{{ url_for }}`
 
-### 4.3 模板中过滤器基本是使用
+### 3.4 模板中过滤器基本是使用
 
-过滤器是通过管道符号(|)进行使用的，例如`{{ name | length}}`,将返回name的长度。过滤器相当于是一个函数，把当前的变量传入到过滤器中，然后获取器根据自己的功能，返回相应的值，之后再将结果渲染到页面，Jinja2中内置了很多过滤器，现在对一些常用的过滤器进行讲解
+过滤器是通过管道符号( | )进行使用的，例如`{{ name | length}}`,将返回name的长度。过滤器相当于是一个函数，把当前的变量传入到过滤器中，然后获取器根据自己的功能，返回相应的值，之后再将结果渲染到页面，Jinja2中内置了很多过滤器，现在对一些常用的过滤器进行讲解
 
-- abs(value): 返回一个数值的绝对值。
+#### 3.4.1 过滤器介绍，语法
+
+1. 有时候我们要在模板中对一些变量进行处理，那么就必须需要类似于Python中的函数一样的可以将这个值传到函数中，然后做一些操作。在模板中，过滤器相当于是一个函数，把当前的变量传入到过滤器中，然后过滤器根据自己的功能，再返回响应的值，之后再将结果渲染到页面中
+2. 基本语法：`{{ variable|过滤器 }}`。根据管道符号`|`进行组合。
+
+#### 3.4.2 常用过滤器
+
+- `abs(value)`: 返回一个数值的绝对值。
+- `default(value, default_value, boolean=false)`: 如果当前变量没有值，则会使用参数中的值来代替。`name|default('xiaotuo')` -- 如果name不存在，这会使用 `xiaotuo`来替代。boolean=False默认是只有这个变量为undefined的时候才会使用default中的值，如果想使用Python的形式判断是否为false，则可以传递boolean=true。也可以使用 or 来替换
+- `escape(value) 或 e`: 转移字符，会将 <、>等符号转移成HTML中的符号。例如：content|escape 或 content|e 
+- `first(value)`: 返回序列的第一个元素。`name|first`
+- `format(value, *args, **kwargs)`: 格式化字符串。例如：
+    - >{{'%s' - '%s'|format('Hello?', 'Foo!')}} 将输出：Hello? - Foo!
+- `last(value)`: 返回序列的最后一个元素。
+- `length(value)`: 返回序列或字典的长度
+- `join(value, d=u)`: 将一个序列用d这个参数的值拼接成字符串。
+- `safe(value)`: 如果开启了全局转义，那么safe过滤器会将变量关掉转移。
+- `int(value)`: 将值转换为int型
+- `float(value)`: 将值转换为float型
+- `lower(value)`: 将字符串转化为小写
+- `upper(value)`: 将字符串转换为大写
+- `tojson(value)`: 将变量输出为JSON字符串。这个在配合Javascript使用时非常有用。我们延用上节字典列表操作中定义的”users”变量
+- `trim(value)`: 去除字符串前后的空白字符
+- `reverse(value)`: 字符串反转
+- `round(value)`: 
+  - 四舍五入取整，返回13.0。例：{{ 12.8888 | round }}。
+  - 向下截取到小数点后2位，返回12.88。例：{{ 12.8888 | round(2, 'floor') }}。
+- `sum(value)`: 列表求和.
+- `sort(value)`: 列表排序，默认为升序.
+
+#### 自定义过滤器
 
 
 
