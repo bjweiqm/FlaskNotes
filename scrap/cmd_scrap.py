@@ -61,5 +61,10 @@ def get_url_data(url):
 
 
 if __name__=='__main__':
-    url = 'http://www.caca043.com/videos/46991/91-104/'
-    get_url_data(url)
+    try:
+        url = sys.argv[1]
+        get_url_data(url)
+    except IndexError as identifier:
+        pass
+    # url = 'http://www.caca043.com/videos/46991/91-104/'
+    # get_url_data(url)
