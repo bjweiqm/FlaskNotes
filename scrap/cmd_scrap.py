@@ -65,6 +65,6 @@ if __name__=='__main__':
         url = sys.argv[1]
         get_url_data(url)
     except IndexError as identifier:
-        pass
+        print('页面解析错误！')
     # url = 'http://www.caca043.com/videos/46991/91-104/'
     # get_url_data(url)
