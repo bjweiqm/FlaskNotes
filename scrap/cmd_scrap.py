@@ -61,6 +61,7 @@ def get_url_data(url):
 
 
 if __name__=='__main__':
+    print('输入URL链接解析视频地址，输入q退出本程序。')
     while True:
         print('请输入URL：')
         url = input()
