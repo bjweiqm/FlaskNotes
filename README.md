@@ -537,6 +537,11 @@ def sub(l, start, end):
 {# 返回[2,3,4] #}
 <p>{{ [1,2,3,4,5] | sub(1,4) }}</p>
 ```
+Flask添加过滤器的方法实际上是封装了对Jinja2环境变量的操作。上述添加”sub”过滤器的方法，等同于下面的代码。
+```python
+app.jinja_env.filters['sub'] = sub
+```
+我们在Flask应用中，不建议直接访问Jinja2的环境变量。如果离开Flask环境直接使用Jinja2的话，就可以通过”jinja2.Environment”来获取环境变量，并添加过滤器。
 
 
 
