@@ -61,9 +61,9 @@ def get_url_data(url):
 
 
 if __name__=='__main__':
-    print('请输入URL：')
-    url = input()
     while True:
+        print('请输入URL：')
+        url = input()
         if url == 'q':
             print('程序退出！')
             break
