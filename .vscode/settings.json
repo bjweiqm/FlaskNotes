@@ -1,4 +1,4 @@
 {
-    // "python.pythonPath": "/anaconda3/envs/FlaksEnv/bin/python",
-    "python.pythonPath": "/Users/megnwei/anaconda3/envs/flask_student/bin/python"
+    "python.pythonPath": "/anaconda3/envs/FlaksEnv/bin/python",
+    // "python.pythonPath": "/Users/megnwei/anaconda3/envs/flask_student/bin/python"
 }
