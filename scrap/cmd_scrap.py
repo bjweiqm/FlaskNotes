@@ -61,7 +61,7 @@ def get_url_data(url):
 
 
 if __name__=='__main__':
-    for url != 'q':
+    if url != 'q':
         print('请输入URL：')
         url = input()
         get_url_data(url)
