@@ -63,7 +63,7 @@ def get_url_data(url):
 if __name__=='__main__':
     print('请输入URL：')
     url = input()
-    print(url)
+    get_url_data(url)
     # try:
     #     url = sys.argv[1]
     #     url = input('请输入链接：')
