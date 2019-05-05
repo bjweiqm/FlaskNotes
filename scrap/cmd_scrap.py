@@ -63,6 +63,7 @@ def get_url_data(url):
 if __name__=='__main__':
     try:
         url = sys.argv[1]
+        print(url)
         get_url_data(url)
     except IndexError as identifier:
         print('页面解析错误！')
