@@ -1,6 +1,5 @@
 # encoding:utf-8
 import random, requests, re, sys
-# from config import user_agent
 
 
 user_agent = [
@@ -59,8 +58,7 @@ def get_url_data(url):
         print(download)
         return download
 
-
-if __name__=='__main__':
+def run():
     print('输入URL链接解析视频地址，输入q退出本程序。')
     while True:
         print('请输入URL：')
@@ -70,6 +68,10 @@ if __name__=='__main__':
             break
         else:
             get_url_data(url)
+
+
+if __name__=='__main__':
+    run()
     # try:
     #     url = sys.argv[1]
     #     url = input('请输入链接：')
