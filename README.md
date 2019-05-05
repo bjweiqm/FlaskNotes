@@ -526,7 +526,17 @@ app.add_template_filter(double_step_filter, 'double_step')
 
 ##### 3.4.6.2 第二种方式(装饰器方法)
 
-
+Flask还提供了添加过滤器的装饰器”template_filter”，使用起来更简单。下面的代码就添加了一个取子列表的过滤器。装饰器的参数定义了该过滤器的名称”sub”。
+```
+@app.template_filter('sub')
+def sub(l, start, end):
+    return l[start:end]
+```
+我们在模板中可以这样使用它：
+```
+{# 返回[2,3,4] #}
+<p>{{ [1,2,3,4,5] | sub(1,4) }}</p>
+```
 
 
 
