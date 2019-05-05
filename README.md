@@ -387,7 +387,35 @@ def index():
 过滤器是通过管道符号(|)进行使用的，例如`{{ name | length}}`,将返回name的长度。过滤器相当于是一个函数，把当前的变量传入到过滤器中，然后获取器根据自己的功能，返回相应的值，之后再将结果渲染到页面，Jinja2中内置了很多过滤器，现在对一些常用的过滤器进行讲解
 
 - abs(value): 返回一个数值的绝对值。
-#### 4.3.1
+#### 4.3.1 字符串操作
+
+```jinja
+{# 当变量未定义时，显示默认字符串，可以缩写为d #}
+<p>{{ name | default('No name', true) }}</p>
+ 
+{# 单词首字母大写 #}
+<p>{{ 'hello' | capitalize }}</p>
+ 
+{# 单词全小写 #}
+<p>{{ 'XML' | lower }}</p>
+ 
+{# 去除字符串前后的空白字符 #}
+<p>{{ '  hello  ' | trim }}</p>
+ 
+{# 字符串反转，返回"olleh" #}
+<p>{{ 'hello' | reverse }}</p>
+ 
+{# 格式化输出，返回"Number is 2" #}
+<p>{{ '%s is %d' | format("Number", 2) }}</p>
+ 
+{# 关闭HTML自动转义 #}
+<p>{{ '<em>name</em>' | safe }}</p>
+ 
+{% autoescape false %}
+{# HTML转义，即使autoescape关了也转义，可以缩写为e #}
+<p>{{ '<em>name</em>' | escape }}</p>
+{% endautoescape %}
+```
 
 
 
