@@ -61,11 +61,15 @@ def get_url_data(url):
 
 
 if __name__=='__main__':
-    try:
-        url = sys.argv[1]
-        print(url)
-        get_url_data(url)
-    except IndexError as identifier:
-        print('页面解析错误！')
+    print('请输入URL：')
+    url = input()
+    print(url)
+    # try:
+    #     url = sys.argv[1]
+    #     url = input('请输入链接：')
+    #     print(url)
+    #     get_url_data(url)
+    # except IndexError as identifier:
+    #     print('页面解析错误！')
     # url = 'http://www.caca043.com/videos/46991/91-104/'
     # get_url_data(url)
