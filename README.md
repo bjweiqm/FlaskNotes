@@ -429,7 +429,62 @@ def index():
 <p>{{ -12 | abs }}</p>
 ```
 
-#### 4.3.3 数值操作
+#### 4.3.3 列表操作
+
+```
+{# 取第一个元素 #}
+<p>{{ [1,2,3,4,5] | first }}</p>
+ 
+{# 取最后一个元素 #}
+<p>{{ [1,2,3,4,5] | last }}</p>
+ 
+{# 返回列表长度，可以写为count #}
+<p>{{ [1,2,3,4,5] | length }}</p>
+ 
+{# 列表求和 #}
+<p>{{ [1,2,3,4,5] | sum }}</p>
+ 
+{# 列表排序，默认为升序 #}
+<p>{{ [3,2,1,5,4] | sort }}</p>
+ 
+{# 合并为字符串，返回"1 | 2 | 3 | 4 | 5" #}
+<p>{{ [1,2,3,4,5] | join(' | ') }}</p>
+ 
+{# 列表中所有元素都全大写。这里可以用upper,lower，但capitalize无效 #}
+<p>{{ ['tom','bob','ada'] | upper }}</p>
+```
+
+#### 4.3.4 字典列表操作
+```
+{% set users=[{'name':'Tom','gender':'M','age':20},
+              {'name':'John','gender':'M','age':18},
+              {'name':'Mary','gender':'F','age':24},
+              {'name':'Bob','gender':'M','age':31},
+              {'name':'Lisa','gender':'F','age':19}]
+%}
+ 
+ 
+{# 按指定字段排序，这里设reverse为true使其按降序排 #}
+<ul>
+{% for user in users | sort(attribute='age', reverse=true) %}
+     <li>{{ user.name }}, {{ user.age }}</li>
+{% endfor %}
+</ul>
+ 
+{# 列表分组，每组是一个子列表，组名就是分组项的值 #}
+<ul>
+{% for group in users|groupby('gender') %}
+    <li>{{ group.grouper }}<ul>
+    {% for user in group.list %}
+        <li>{{ user.name }}</li>
+    {% endfor %}</ul></li>
+{% endfor %}
+</ul>
+ 
+{# 取字典中的某一项组成列表，再将其连接起来 #}
+<p>{{ users | map(attribute='name') | join(', ') }}</p>
+```
+
 
 
 
