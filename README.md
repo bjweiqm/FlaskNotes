@@ -485,7 +485,15 @@ def index():
 <p>{{ users | map(attribute='name') | join(', ') }}</p>
 ```
 
+#### 4.3.5 Flask内置过滤器
 
+Flask提供了一个内置过滤器”tojson”，它的作用是将变量输出为JSON字符串。这个在配合Javascript使用时非常有用。我们延用上节字典列表操作中定义的”users”变量
+```
+<script type="text/javascript">
+var users = {{ users | tojson | safe }};
+console.log(users[0].name);
+</script>
+```
 
 
 
