@@ -505,6 +505,25 @@ console.log(users[0].name);
 #### 3.4.6 自动以过滤器
 
 ##### 3.4.6.1 第一种方式(自定义方法)
+
+内置的过滤器不满足需求怎么办？自己写呗。过滤器说白了就是一个函数嘛，我们马上就来写一个。回到Flask应用代码中：
+
+```python
+def double_step_filter(l):
+    return l[::2]
+```
+
+我们定义了一个”double_step_filter”函数，返回输入列表的偶数位元素（第0位，第2位,..）。怎么把它加到模板中当过滤器用呢？Flask应用对象提供了”add_template_filter”方法来帮我们实现。我们加入下面的代码：
+
+```
+app.add_template_filter(double_step_filter, 'double_step')
+```
+函数的第一个参数是过滤器函数，第二个参数是过滤器名称。然后，我们就可以愉快地在模板中使用这个叫”double_step”的过滤器了：
+```
+{# 返回[1,3,5] #}
+<p>{{ [1,2,3,4,5] | double_step }}</p>
+```
+
 ##### 3.4.6.2 第二种方式(装饰器方法)
 
 
