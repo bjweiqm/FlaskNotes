@@ -61,9 +61,12 @@ def get_url_data(url):
 
 
 if __name__=='__main__':
-    print('请输入URL：')
-    url = input()
-    get_url_data(url)
+    for url != 'q':
+        print('请输入URL：')
+        url = input()
+        get_url_data(url)
+    else:
+        print('程序退出！')
     # try:
     #     url = sys.argv[1]
     #     url = input('请输入链接：')
