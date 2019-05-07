@@ -17,6 +17,8 @@ app.config.update({
 def index():
     respons = lottery_number()
     prize = run()
+    respons['ssq_prize'] = prize[-1]
+    respons['dlt_prize'] = prize[0]
     if isinstance(respons, dict):
         ssq = respons.get('ssq_red')
         dlt = respons.get('dlt_blue')
