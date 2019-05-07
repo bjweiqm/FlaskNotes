@@ -58,7 +58,7 @@ def html_data(url: str):
     lottery_list = data.find_all('div', class_='ball_box01')
     ball_red = set([int(i.string) for i in lottery_list[0].find_all('li', 'ball_red')])
     ball_blue = set([int(i.string) for i in lottery_list[0].find_all('li', 'ball_blue')])
-    period = data.find("font", class_=' cfont2')[0].string
+    period = data.find("font", class_='cfont2').string
     print(period)
     print('===='*30)
 
