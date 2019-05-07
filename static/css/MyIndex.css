@@ -64,6 +64,8 @@ body{
     float: left;
     height: 50px;
     width: 25%;
+    text-align: center;
+    line-height: 50px;
     
 }
 
