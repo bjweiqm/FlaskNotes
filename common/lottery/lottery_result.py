@@ -74,8 +74,7 @@ def lottery_dlt(url: str):
     else:
 
         return '哎， 又没中奖！！！'
-    
-    
+
     
 def lottery_ssq(url: str):
     '''双色球兑奖'''
@@ -87,6 +86,8 @@ def lottery_ssq(url: str):
     else:
 
         return '哎， 又没中奖！！！'
+
+
 def lottery_number():
     ssq_url = 'http://kaijiang.500.com/ssq.shtml'
     dlt_url = 'http://kaijiang.500.com/dlt.shtml'
