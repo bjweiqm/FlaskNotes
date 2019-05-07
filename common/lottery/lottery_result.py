@@ -75,7 +75,7 @@ def lottery_dlt(url: str):
         return [dlt_lottery.get(lottery_len), dlt_period]
     else:
 
-        return ['哎， 又没中奖！！！', dlt_period]
+        return ['哎， 又没中奖！！', dlt_period]
 
     
 def lottery_ssq(url: str):
