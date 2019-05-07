@@ -51,6 +51,12 @@ body{
     color: aliceblue;
 }
 
+.nav_bottom{
+    float: left;
+    bottom: 0;
+    background-color: #0f0;
+}
+
 
 
 
