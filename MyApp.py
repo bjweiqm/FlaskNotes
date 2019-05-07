@@ -16,6 +16,7 @@ app.config.update({
 @app.route('/')
 def index():
     respons = lottery_number()
+    prize = run()
     if isinstance(respons, dict):
         ssq = respons.get('ssq_red')
         dlt = respons.get('dlt_blue')
