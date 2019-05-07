@@ -62,6 +62,7 @@ body{
 }
 .nav_bottom>span{
     float: left;
+    height: 50px;
     width: 25%;
     
 }
