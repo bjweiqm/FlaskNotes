@@ -16,9 +16,9 @@ app.config.update({
 @app.route('/')
 def index():
     respons = lottery_number()
-    ssq, dlt = run()
-    respons['ssq_prize'] = prize[-1]
-    respons['dlt_prize'] = prize[0]
+    dlt, ssq = run()
+    respons['ssq_prize'] = ssq[0]
+    respons['dlt_prize'] = dlt[0]
     print('222222222')
     print(ssq)
     print('333333333')
