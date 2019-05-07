@@ -67,7 +67,6 @@ def html_data(url: str):
 
 def lottery_dlt(url: str):
     '''大乐透兑奖实现
-    {'ssq': [{8, 9, 10, 13, 15, 28}, {9}], 'dlt': [{35, 4, 15, 16, 20}, {3, 12}]}
     '''
     red, blue, period = html_data(url)
     lottery_len = (len(red.intersection(dlt_red)), len(blue.intersection(dlt_blue)))
@@ -100,8 +99,10 @@ def lottery_number():
     return {
         'ssq_red': list(ssq_red),
         'ssq_blue': list(ssq_blue),
+        'ssq_period': ssq_period,
         'dlt_red': list(dlt_red),
-        'dlt_blue': list(dlt_blue)
+        'dlt_blue': list(dlt_blue),
+        'dlt_period': dlt_period
     }
 
 def run():
