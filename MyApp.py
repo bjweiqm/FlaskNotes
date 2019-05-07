@@ -16,13 +16,13 @@ app.config.update({
 @app.route('/')
 def index():
     respons = lottery_number()
-    prize, number = run()
+    ssq, dlt = run()
     respons['ssq_prize'] = prize[-1]
     respons['dlt_prize'] = prize[0]
     print('222222222')
-    print(number)
+    print(ssq)
     print('333333333')
-    print(prize)
+    print(dlt)
     return render_template('MyIndex.html', **respons)
 
 @app.route('/add/')
