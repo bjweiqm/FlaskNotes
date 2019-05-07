@@ -113,8 +113,6 @@ def run():
 
 
 if __name__=='__main__':
-    # ssq_url = 'https://caipiao.taobao.com/lottery/drawed/historylist.htm?spm=a2126.12523672.0.0.6cc33348X4Obdm&page=1&type=1'
-    # dlt_url = 'https://caipiao.taobao.com/lottery/drawed/historylist.htm?spm=a2126.12523672.0.0.6cc33348X4Obdm&page=1&type=8'
     ssq_url = 'http://kaijiang.500.com/ssq.shtml'
     dlt_url = 'http://kaijiang.500.com/dlt.shtml'
     lottery_dlt(dlt_url)
