@@ -69,7 +69,7 @@ def lottery_dlt(url: str):
     '''大乐透兑奖实现
     {'ssq': [{8, 9, 10, 13, 15, 28}, {9}], 'dlt': [{35, 4, 15, 16, 20}, {3, 12}]}
     '''
-    red, blue = html_data(url)
+    red, blue, period = html_data(url)
     lottery_len = (len(red.intersection(dlt_red)), len(blue.intersection(dlt_blue)))
     if lottery_len in dlt_lottery.keys():
 
@@ -81,7 +81,7 @@ def lottery_dlt(url: str):
     
 def lottery_ssq(url: str):
     '''双色球兑奖'''
-    red, blue = html_data(url)
+    red, blue, period = html_data(url)
     lottery_len = (len(red.intersection(ssq_red)), len(blue.intersection(ssq_blue)))
     if lottery_len in ssq_lottery.keys():
         print(ssq_lottery.get(lottery_len))
@@ -94,8 +94,8 @@ def lottery_ssq(url: str):
 def lottery_number():
     ssq_url = 'http://kaijiang.500.com/ssq.shtml'
     dlt_url = 'http://kaijiang.500.com/dlt.shtml'
-    ssq_red, ssq_blue = html_data(ssq_url)
-    dlt_red, dlt_blue = html_data(dlt_url)
+    ssq_red, ssq_blue, ssq_period = html_data(ssq_url)
+    dlt_red, dlt_blue, dlt_period = html_data(dlt_url)
     print(ssq_red, ssq_blue, dlt_blue, dlt_red)
     return {
         'ssq_red': list(ssq_red),
