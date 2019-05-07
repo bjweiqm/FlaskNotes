@@ -68,26 +68,26 @@ def html_data(url: str):
 def lottery_dlt(url: str):
     '''大乐透兑奖实现
     '''
-    red, blue, period = html_data(url)
+    red, blue, dlt_period = html_data(url)
     lottery_len = (len(red.intersection(dlt_red)), len(blue.intersection(dlt_blue)))
     if lottery_len in dlt_lottery.keys():
 
-        return dlt_lottery.get(lottery_len)
+        return [dlt_lottery.get(lottery_len), dlt_period]
     else:
 
-        return '哎， 又没中奖！！！'
+        return ['哎， 又没中奖！！！', dlt_period]
 
     
 def lottery_ssq(url: str):
     '''双色球兑奖'''
-    red, blue, period = html_data(url)
+    red, blue, ssq_period = html_data(url)
     lottery_len = (len(red.intersection(ssq_red)), len(blue.intersection(ssq_blue)))
     if lottery_len in ssq_lottery.keys():
         print(ssq_lottery.get(lottery_len))
-        return ssq_lottery.get(lottery_len)
+        return [ssq_lottery.get(lottery_len), ssq_period]
     else:
 
-        return '哎， 又没中奖！！！'
+        return ['哎， 又没中奖！！！', ssq_period]
 
 
 def lottery_number():
