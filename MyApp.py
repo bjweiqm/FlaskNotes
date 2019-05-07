@@ -19,7 +19,7 @@ def index():
     prize, number = run()
     respons['ssq_prize'] = prize[-1]
     respons['dlt_prize'] = prize[0]
-
+    print(number)
     return render_template('MyIndex.html', **respons)
 
 @app.route('/add/')
