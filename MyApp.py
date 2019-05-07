@@ -19,15 +19,7 @@ def index():
     prize = run()
     respons['ssq_prize'] = prize[-1]
     respons['dlt_prize'] = prize[0]
-    if isinstance(respons, dict):
-        ssq = respons.get('ssq_red')
-        dlt = respons.get('dlt_blue')
-        print(type(dlt))
-        print(ssq[0])
-        print('---'*40)
-        print('{}\n{}'.format(ssq, dlt))
 
-    # print(respons)
     return render_template('MyIndex.html', **respons)
 
 
