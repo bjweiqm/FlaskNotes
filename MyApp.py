@@ -22,6 +22,11 @@ def index():
 
     return render_template('MyIndex.html', **respons)
 
+@app.route('/add/')
+def add_number():
+
+    return render_template('add_nuber.html')
+
 
 if __name__ == '__main__':
     app.run()
