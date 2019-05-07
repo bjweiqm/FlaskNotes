@@ -62,7 +62,7 @@ def html_data(url: str):
     print(period)
     print('===='*30)
 
-    return [ball_red, ball_blue]
+    return [ball_red, ball_blue, period]
 
 
 def lottery_dlt(url: str):
