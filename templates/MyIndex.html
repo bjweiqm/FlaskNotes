@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>大力出奇迹</title>
+    <script src="static/js/myIndex.js"></script>
+    <link rel="stylesheet" href="static/css/MyIndex.css">
+</head>
+<body>
+
+    <div class="title">
+        大力出奇迹
+    </div>
+
+    <div class="carousel">
+        <table class="carou">
+            <tr class="ssq">
+                <td class="left">双色球：</td>
+                <td class="reiht">
+                    {% for red in ssq_red %}
+                        <span class="red">{{ red }}</span>
+                    {% endfor %}
+                    <span> | </span>
+                    {% for blue in ssq_blue %}
+                        <span class="blue">{{ blue }}</span>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr class="dlt">
+                <td class="left">大乐透：</td>
+                <td class="reiht">
+                    {% for red in dlt_red %}
+                        <span class="red">{{ red }}</span>
+                    {% endfor %}  
+                    <span> | </span>
+                    {% for blue in dlt_blue %}
+                        <span class="blue">{{ blue }}</span>
+                    {% endfor %}               
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+</body>
+</html>
