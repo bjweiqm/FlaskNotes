@@ -502,7 +502,7 @@ console.log(users[0].name);
 </script>
 ```
 
-#### 3.4.6 自动以过滤器
+#### 3.4.6 自定义过滤器
 
 ##### 3.4.6.1 第一种方式(自定义方法)
 
@@ -526,7 +526,7 @@ app.add_template_filter(double_step_filter, 'double_step')
 
 ##### 3.4.6.2 第二种方式(装饰器方法)
 
-Flask还提供了添加过滤器的装饰器”template_filter”，使用起来更简单。下面的代码就添加了一个取子列表的过滤器。装饰器的参数定义了该过滤器的名称”sub”。
+Flask还提供了添加过滤器的装饰器”template_filter”，使用起来更简单。下面的代码就添加了一个取子列表的过滤器。装饰器的参数定义了该过滤器的名称”sub”。 例子:` template_app.py`  and  `filter.html`;
 ```
 @app.template_filter('sub')
 def sub(l, start, end):
@@ -543,8 +543,11 @@ app.jinja_env.filters['sub'] = sub
 ```
 我们在Flask应用中，不建议直接访问Jinja2的环境变量。如果离开Flask环境直接使用Jinja2的话，就可以通过”jinja2.Environment”来获取环境变量，并添加过滤器。
 
+### 3.5 逻辑处理（if、for）
 
+#### 3.5.1 if语句
 
+if 条件判断语句，必须放在 {% if statement %} 中间，并且必须有结束语句 `{% endif %}` 。和`Python`中的类似，可以使用 `<、 >、 <=、 >=、 !=`来进行判断，也可以通过 `and、 or、 not、 （）`来进行逻辑合并处理。
 
 
 
