@@ -109,7 +109,7 @@ person.zipcode; // null
 3. `indexOf()`会搜索指定字符串出现的位置：
 4. `substring()`返回指定索引区间的子串：
 
-
+### 3. 内置函数
 
 
 
