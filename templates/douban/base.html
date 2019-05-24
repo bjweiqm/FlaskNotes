@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/douban/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/douban/index.css') }}">
+    <title>{% block title %}{% endblock title %}</title>
+    {% block head %}{% endblock head %}
+</head>
+<body>
+    <div class="container">
+        <!-- 设置头部搜索输入框 -->
+        <div class="search-group">
+            <input type="text" class="search-input" value="search...">
+        </div>
+
+        {% block body %}{% endblock body %}
+
+    </div>
+    
+</body>
+</html>

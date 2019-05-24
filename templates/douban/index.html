@@ -1,0 +1,7 @@
+{% extends 'douban/base.html' %}
+{% from "douban/hong.html" import itemGroup, listGroup %}
+
+{% block body %}
+    {{ listGroup('电影', moives, 1) }}
+    {{ listGroup('电视', tvs, 2) }}
+{% endblock  %}

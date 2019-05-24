@@ -1,0 +1,14 @@
+{% extends 'inherit/base.html' %}
+
+{% block title %}
+    我爱我家   
+{% endblock title %}
+
+{% block body_block %}
+    {{ super() }}
+    {{ self.title() }}
+
+    <p>
+        我是首页
+    </p>
+{% endblock body_block %}

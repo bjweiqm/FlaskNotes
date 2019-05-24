@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>豆瓣小程序</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+            list-style: none;
+            text-decoration: none;
+        }
+        .container{
+            width: 375px;
+            height: 650px;
+            background-color: antiquewhite;
+        }
+        .search-group{
+            padding: 14px 8px;
+            background-color: #41be57;
+        }
+        .search-group .search-input{
+            background-color: #fff;
+            display: block;
+            width: 100%;
+            height: 30px;
+            border-radius: 5px;
+            outline: none;
+            border:none;
+        }
+        .item-list-group .item-list-top{
+            overflow: hidden;
+            padding: 10px;
+        }
+        .item-list-top .module-title{
+            float: left;
+        }
+        .item-list-top .more-btn{
+            float: right;
+        }
+
+        
+        .list-group{
+            overflow: hidden;
+            padding: 0 10px;
+        }
+        .list-group .item-group{
+            float: left;
+            margin-right: 10px;
+        }
+        .item-group .thumbnail{
+            display: block;
+            width: 100px;
+        }
+        .item-group .item-title{
+            font-size: 12px;
+            text-align: center;
+        }
+        .item-group .item-rating{
+            font-size: 12px;
+            text-align: center;
+        }
+    
+    </style>
+</head>
+<body>
+    {% macro itemGroup(thumbnail, title, rating) %}
+        <dvi class="item-group">
+            <img src="{{ thumbnail }}" alt="" class="thumbnail">
+            <p class="item-title">{{ title }}</p>
+            <p class="item-rating">
+                {% set rating=7.5 %}
+                {% set lights = ((rating|int)/2|int) %}
+                {% set halfsb = (rating|int)%2 %}
+                {% set grays = 5 - lights - halfsb %}
+                {{ rating }}
+            </p>
+        </dvi>
+    {% endmacro %}
+    {% macro listGroup(movies_title, items) %}
+        <div class="item-list-group">
+            <div class="item-list-top">
+                <span class="module-title">{{ movies_title }}</span>
+                <a href="#" class="more-btn">更多</a>
+            </div>
+        </div>
+
+        <div class="list-group">
+            {% for item in items[0:3] %}
+                {{ itemGroup(item.thumbnail, item.title, item.rating) }}
+            {% endfor %}
+        </div>
+    {% endmacro %}
+    <div class="container">
+        <div class="search-group">
+            <input type="text" class="search-input" placeholder="search...">
+        </div>
+        {{ listGroup('电影', moives) }}
+        {{ listGroup('电视', tvs) }}
+        
+
+    </div>
+    
+</body>
+</html>

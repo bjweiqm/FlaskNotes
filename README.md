@@ -624,8 +624,82 @@ flask中 导入宏是从 templates 中开始计算路径
 
 #### 3.7.1 set、with及模板中定义变量
 
+##### 3.7.1.1 set with 语句
 
+在模板中，可以使用`set`语句来定义变量，一旦定义了变量，那么在后面的代码中，都可以使用这个变量，就类似于Python的变量定义是一样的。
+```html
+{%set username='alex'%}
+<p>用户名{{ username }}</p>
+```
 
+`with` 语句定义的变量，只能在 `with` 语句块中使用，超过了这个代码块，就不能再使用了。 `with` 中使用 `set` 定义了变量，超出 `with` 块后也是不能使用的。 
 
+```html
+{% with classroom = '一年级三班' %}
+    <p>班级：{{ classroom }}</p>
+{% encwith%}
+```
+
+#### 3.7.2 加载静态文件
+
+```
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+```
+
+#### 3.7.3 模板继承
+
+1. 为什么需要模板继承
+    1. 模板继承可以把一些公用的代码单独抽取出来放到一个父模板中，以后子模板直接继承就可以使用了，这样可以重复性的代码，以后修改起来比较方便。
+2. 模板继承语法
+    1. 使用 `extends`语句，来指明继承的父模板，父模板的路径，也是相对于templates文件夹下的绝对路径。
+    2. `{% extends 'base.html' %}`
+3. block语法
+    1. 一般在父模板中，定义一些公用的代码，子模板可能要根据具体的需求实现不同的代码，这时候父模板就应该有能力提供一个接口，让父模板来实现，从而实现具体业务需求的功能。
+    
+4. 调用另外一个block中的代码
+如果想要在另外一个模板中使用其他模板中的代码，那么可以通过 `{{ self.其他block名字() }}`就可以了。示例代码如下：
+```html
+{% block title %}
+    标题
+{%endblock%}
+
+{% block body_block %}
+    {{ self.title() }}
+    <p>代码</p>
+{% endblock body_block %}
+```
+5. 其他注意事项
+    1. 子模板中的代码，第一行，应该是 `extends`
+    2. 子模板中，如果要实现自己的代码，应该放到block中，如果放到其他地方，那么久不会被渲染
+
+在父模板定义入口
+```
+{% block body_block %}
+        
+{% endblock body_block %}
+```
+在子模板中调用
+```
+{% extends 'inherit/base.html' %}
+{% block body_block %}
+    <div>
+        我是首页
+    </div>
+{% endblock body_block %}
+```
+在子模板中保留父模板中的代码
+```
+{% extends 'inherit/base.html' %}
+{% block body_block %}
+    {{ super() }}
+    <div>
+        我是首页
+    </div>
+{% endblock body_block %}
+```
+
+## 第四章 视图高级
+
+### add_url_rule和approute原理剖析
 
 

@@ -1,0 +1,33 @@
+/* 设置电影模块css */
+.item-list-group .item-list-top{
+    overflow: hidden;
+    padding: 10px;
+}
+/* 设置电影 头部css */
+.item-list-top .module-title{
+    float: left;
+}
+.item-list-top .more-btn{
+    float: right;
+}
+/* 设置电影信息css */
+.list-group{
+    overflow: hidden;
+    padding: 0 10px;
+}
+.item-group{
+    float: left;
+    margin-right: 10px;
+}
+.item-group .thumbnail{
+    display: block;
+    width: 100px;
+}
+.item-group .item-title{
+    font-size: 12px;
+    text-align: center;
+}
+.item-group .item-rating{
+    font-size: 12px;
+    text-align: center;
+}

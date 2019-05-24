@@ -1,0 +1,8 @@
+{% extends 'douban/base.html' %}
+{% from "douban/hong.html" import itemGroup %}
+
+{% block body %}
+    {% for item in items %}
+        {{ itemGroup(item.thumbnail, item.title, item.rating) }}
+    {% endfor %}
+{% endblock body %}

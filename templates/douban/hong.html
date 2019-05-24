@@ -1,0 +1,32 @@
+<!-- 宏文件 -->
+{% macro itemGroup(thumbnail, title, rating) %}
+    <!-- 电影信息 -->
+    <div class="item-group">
+        <!-- 电影的图片 -->
+        <img src="{{ thumbnail }}" alt="" class="thumbnail">
+        <!-- 电影名称 -->
+        <p class="item-title">{{ title }}</p>
+        <!-- 电影评分 -->
+        <p class="item-rating">{{ rating }}</p>
+    </div>
+<!-- </div> -->
+{% endmacro %}
+
+{% macro listGroup(movies_title, items, category=category) %}
+    <!-- 设置电影模块的样式 -->
+    <div class="item-list-group">
+        <!-- 设置电影模块 头部样式 -->
+        <div class="item-list-top">
+            <span class="module-title">{{ movies_title }}</span>
+            <a href="{{ url_for('item_list', category=category) }}" class="more-btn">更多</a>
+        </div>
+        <!-- 设置电影的横向列表 -->
+        <div class="list-group">
+            <!-- 循环获取电影数据 -->
+            {% for item in items[0:3] %}
+                <!-- 引入定义的宏 -->
+                {{ itemGroup(item.thumbnail, item.title, item.rating) }}
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}
