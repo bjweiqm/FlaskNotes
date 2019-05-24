@@ -549,6 +549,80 @@ app.jinja_env.filters['sub'] = sub
 
 if 条件判断语句，必须放在 {% if statement %} 中间，并且必须有结束语句 `{% endif %}` 。和`Python`中的类似，可以使用 `<、 >、 <=、 >=、 !=`来进行判断，也可以通过 `and、 or、 not、 （）`来进行逻辑合并处理。
 
+#### 3.5.2 for循环
+
+在 `Jinjia2` 中的 `for` 循环，跟 `Python` 中的 `for` 循环基本上一模一样，也是 `for...in...` 的形式，并且可以遍历所有的序列以及迭代器。但是唯一不同的是， `Jinjia2` 中的 `for` 循环没有 `continue` 和 `break` 语句。
+
+`jinjia` 中的 `for` 循环还包含以下变量，可以用来获取当前的遍历状态。
+变量|描述
+--|--
+loop.index| 当前迭代的索引，从1开始
+loop.index0| 当前迭代的索引，从0开始
+loop.first| 是否是第一次迭代，返回True或False
+loop.last| 是否是最后一次迭代，返回True或False
+loop.length| 序列的长度
+
+另：不可以使用`continue` 和 `break`表达式来控制循环的执行。
+
+### 3.6 宏 和 import 语句 include 语句
+
+模板中的宏跟Python中的函数类似，可以传递参数，但是不能有返回值，可以将一些经常用到的代码片段放到宏中，然后把一些不固定的值抽取出来当成一个变量。
+使用宏的时候，参数可以为默认值。
+
+定义宏
+``` html
+{% macro input(name="", value="", type="") %}
+    <input type="{{ type }}" name="{{ name }}" value="{{ value }}">
+{% endmacro %}
+```
+使用宏
+``` html
+<table>
+    <tbody>
+        <tr>
+            <td>用户名:</td>
+            <td>{{ input('username') }}</td>
+        </tr>
+        <tr>
+            <td>密码:</td>
+            <td>{{ input('password', type="password") }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>{{ input(value="提交", type="submit") }}</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+#### 3.6.1 import 宏
+
+flask中 导入宏是从 templates 中开始计算路径
+1. import "宏文件路径" as 'xxx'
+2. from "宏文件的路径" import 宏的名字 [as xxx]
+3. 宏文件的路径，不要以相对路径去寻找，都要以`templates`最为绝对路径去查找。
+4. 如果想要在导入宏的时候，就把当前模板的一些参数传给宏所在的模板中，那么久应该在导入的时候使用 `with context`。实例：`from 'xxx.html' import input with context`
+
+```
+# 第一种导入方式
+{% from "macro_base.html" import input %}
+
+# 第二种导入方式
+# 导入macro_base中所有的宏
+# 使用时 需要 macro_base.input() 名称.宏名称
+{% import "macro_base.html" as macro_base %}
+
+```
+
+#### 3.6.2 include
+
+1. 这个标签相当于是直接将指定的模板中的代码复制粘贴到当前位置。
+2. include 如果想要使用覆膜板中的变量，直接用就可以了， 不需要使用with context
+3. include 的路径，也是跟 import一样， 直接从templates跟目录下去找，不要以相对路径去找。
+
+### 3.7 设置变量、加载静态文件、继承
+
+#### 3.7.1 set、with及模板中定义变量
 
 
 

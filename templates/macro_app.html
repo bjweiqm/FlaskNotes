@@ -1,0 +1,28 @@
+{% from "macro_base.html" import input %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>宏</title>
+</head>
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td>用户名:</td>
+                <td>{{ input('username') }}</td>
+            </tr>
+            <tr>
+                <td>密码:</td>
+                <td>{{ input('password', type="password") }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ input(value="提交", type="submit") }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
