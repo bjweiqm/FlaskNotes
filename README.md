@@ -700,6 +700,48 @@ flask中 导入宏是从 templates 中开始计算路径
 
 ## 第四章 视图高级
 
-### add_url_rule和approute原理剖析
+### 4.1 add_url_rule和approute原理剖析
 
+1. `add_url_rule(rule,endpoint=None, viwe_func=None)` 这个方法用来添加url与视图函数的映射，如果没有填写 `endpoint` ，那么就默认会使用 `view_func` 的名字作为 `endpoint` 。以后再使用 `url_for` 的时候， 就要看在映射的时候有没有传递 `endpoint` 参数，如果传递了，那么就应该使用 `endpoint` 指定的字符串，如果没有传递，那么久应该使用 `view_func` 的名字。
 
+2. `app_route(rule, **options)`装饰器，其实也是使用 `add_url_rule` 来实现 url 与视图函数映射的。
+
+### 4.2 类视图
+
+#### 4.2.1 标准类视图
+
+1. 标准类视图，必须继承自 `flask.views.View`
+2. 必须实现 `dipatch_request` 方法，以后求情过来后，都会执行这个方法，这个方法的返回值就相当于之前函数视图一样， 也必须返回 `Response` 或者子类对象，或者是字符串，或者是元祖。
+3. 必须通过 `app.add_url_rule(rule, endpoint, view_func)` 来做url与视图的映射。 `view_func` 这个参数，需要使用类视图下的 `as_view` 类方法类转换， `ListView.as_view('list')`
+4. 如果指定了 `endpoint` ，那么在使用 `url_for` 反转的时候就必须使用 `endpoint` 指定的那个值， 如果没有指定 `endpoint` ，那么久可以直接使用 `as_view(视图名字)` 来指定的属兔名字来作为反转。
+5. 视图类有一下好处：可以继承，把一些共性的东西抽取出来放到父类视图中，子类视图直接拿来用就可以了，但是也不是说所有的视图都要使用类视图，这个要根据情况而定。
+
+#### 4.2.2 基于方法的类视图
+
+1. 基于方法的类视图，是根据请求的 `method` 来执行不同的方法。如果用户发的是 `get` 请求，那么将会执行这个类的 `get` 方法。如果用户发的是 `post` 请求，那么将会执行 `post` 方法。其他 `method` 请求类型，例如 `delete` `put` 等。
+2. 这种方式，可以让代码更加简洁。所有的 `get` 请求相关的代码都放到 `get` 方法中。所有 `post` 请求相关的代码都放到 `post` 方法中。
+
+#### 4.2.3类视图中的装饰器
+
+1. 如果使用的是函数视图，那么自定义的装饰器必须放在 app_route 下面。否则这个装饰器就起不到任何作用
+2. 类视图的装饰器，需要重写类视图的一个类属性 decorators ，这个类属性是一个列表或者元祖都可以。里面装的就是所有的装饰器。
+
+### 4.3 蓝图 BluePrint
+
+1. 蓝图的作用就是让我们的flask项目更加模块化，结构更加清晰。可将相同模块的视图函数放在同一个蓝图下，同一个文件中，方便管理。
+2. 基本语法
+    - 在蓝图文件中导入蓝图， 
+    ```python
+    from flask import Blueprint
+    user_bp = Blueprint('user', __name__)
+    ```
+    - 在APP文件中注册蓝图
+    ```python
+    from blueprint.user import user_bp
+    app.regist_blueprint(user_bp)
+    ```
+3. 如果想要某个蓝图下的所有url都有一个url前缀，那么可以在定义蓝图的时候，指定 `url_prefix` 参数
+```python
+user_bp = Blueprint('user', __name__, url_prefix='/user')
+```
+在定义 `url_prefix` 的时候，要注意后面的 斜杠，如果给了那么以后再定义url时，就不要在全面加斜杠。
