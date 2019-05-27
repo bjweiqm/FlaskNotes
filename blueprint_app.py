@@ -1,7 +1,11 @@
 from flask import Flask, render_template
 from blueprint.user import user_bp
 from blueprint.books import book_bp
+
+
 app = Flask(__name__)
+app.config['SERVER_NAME'] = 'dl.com:8000'
+# app.templates_auto_reload = True
 app.register_blueprint(user_bp)
 app.register_blueprint(book_bp)
 

@@ -745,3 +745,33 @@ flask中 导入宏是从 templates 中开始计算路径
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 ```
 在定义 `url_prefix` 的时候，要注意后面的 斜杠，如果给了那么以后再定义url时，就不要在全面加斜杠。
+
+4. 蓝图模板文件的查找：
+    - 如果项目中的 templates 文件夹中有相应的模板文件，就直接使用了。
+    - 如果项目中的 templates 文件夹中没有相应的模板文件，那么就到在定义蓝图的时候指定的路径中寻找。并且蓝图中指定的路径可以为相对路径，相对的是当前这个蓝图文件所在的目录。比如：
+    ```python
+    news_bp =  Blueprints('news', __name__, url_prefix='/news', template_folder='zhiliao')
+    ```
+    因为这个蓝图文件是在 blueprints/news.py，那么就会到 blueprints这个文件夹下的 zhiliao 文件夹中寻找模板文件。
+
+5. 蓝图中静态文件的查找规则：
+    - 在模板文件中，加载静态文件，如果使用 url_for('static'), 那么就会在APP指定的静态文件夹目录下查找静态文件。
+    - 如果在加载静态文件的时候，指定了蓝图的名字，比如 news.static , 那么就会到这个蓝图指定的static_folder下查找静态文件。
+6. url_for 翻转蓝图中的视图函数为URL：
+    如果使用蓝图，那么以后想要翻转蓝图中的视图函数为URL，那么就应该在使用url_for 的时候指定这个蓝图。比如 news.news_list。否则就找不到这个 endpoint 。在模板中的url_for 同样也是要满足这个条件，就是指定蓝图的名字。
+
+#### 4.4 蓝图实现子域名
+
+1. 使用蓝图技术。
+2. 在创建蓝图对象的时候，需要传递一个 subdomain 参数， 来指定这个子域名的前缀，例如： cms_bp = Blueprint('cms', __name__, subdomain='cms').
+3. 需要在APP文件中， 配置 app.config 的 SERVER_NAME 参数。例如：
+    ```python 
+    app.config['SERVER_NAME'] = 'jd.com:5000'
+    ```
+    - ip 地址不能有子域名
+    - localhost 不能有子域名
+4. 要修改host, 添加域名与本机的映射。子域名也需要做映射。
+    ```python
+    127.0.0.1  jd.com
+    127.0.0.1  cms.jd.com
+    ```
