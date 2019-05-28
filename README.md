@@ -932,6 +932,14 @@ conn.execute('select 1')
     title = Column("my_title", String(50))
    ```
 #### query可用参数
-
+1. 模型对象。指定查找这个模型中所有的对象
+2. 模型中的属性，可以指定只查找某个模型的其中几个属性。
+3. 聚合函数
+   1. func.count： 统计行的数量
+   2. func.avg： 求平均值
+   3. func.max： 求最大值
+   4. func.min： 求最小值
+   5. func.sum： 求和。
+   func 上，其实没有任何聚合函数，但是因为他底层实现了一些魔术方法，只要MySQL中有的聚合函数，都可以通过func来调用。
 
 
