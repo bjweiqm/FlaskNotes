@@ -698,7 +698,7 @@ flask中 导入宏是从 templates 中开始计算路径
 {% endblock body_block %}
 ```
 
-## 第四章 视图高级
+## 第四章： 视图高级
 
 ### 4.1 add_url_rule和approute原理剖析
 
@@ -775,3 +775,163 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
     127.0.0.1  jd.com
     127.0.0.1  cms.jd.com
     ```
+
+## 第五章： 数据库
+
+### 5.1 Mysql 数据库安装
+
+### 5.2 SQLAlchemy 介绍和基本使用
+
+#### 5.2.1 依赖
+1. 安装MySQL
+2. 安装 MySQLdb：MySQLdb是用来操作MySQL的包，可以通过pip来安装 `pip install mysql-python` | `python2`
+3. 安装 pymysql：pymysql是用来操作MySQL的包，可以通过pip来安装 `pip install pymysql` | `python3`
+4. SQLAlchemy: SQLAlchemy是一个数据库的orm框架，我们在后面会用到，可以通过pip 来安装 `pip install SQLAlchemy`
+
+
+#### 5.2.2 使用SQLAlchemy
+
+1. 连接数据库
+使用SQLAlchemy去连接数据库，需要使用一些配置信息，然后将他们组合成满足条件的字符串；
+```python 
+HOSTNAME = '127.0.0.1'
+PORT = '3306'
+DATABASE = 'first_sqlalchemy'
+USERNAME = 'root'
+PASSWORD = 'root'
+DB_URL = 'mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=utf8'.format(
+    username=USERNAME, password=PASSWORD, host=HOSTNAME, port=PORT, db=DATABASE
+)
+
+```
+然后使用 create_engine 创建一个引擎 engine ， 然后在调用这个引擎的 connect 方法，就可以得到这个对象，然后就可以通过这个对象对数据库进行操作了
+
+```python
+# 连接sqlite3
+# 相对路径连接数据库
+db_con = create_engine('sqlite:///test.db?check_same_thread=False', echo=True)
+
+engine = create_engine(DB_URL)
+# 判断是否连接成功
+conn = engine.connect()
+conn.execute('select 1')
+```
+
+#### 5.2.3 SQLAlchemy ORM(object relationship mapping)
+
+模型对象与数据库表的映射
+
+##### 5.2.3.1 将ORM模型映射到数据库中：
+1. 用 declarative_base 根据 engine 创建一个ORM基类
+   ```python
+   from sqlalchemy.ext.declarative import declarative_base
+
+    engine = create_engine('sqlite:///ceshi.db?check_same_thread=False', echo=True)
+    Base = declarative_base(engine)
+   ```
+2. 用这个 Base 类作为基类来写自己的ORM类，要定义`__tablename__`类属性，来指定这个模型映射到数据库中的表名。
+   ```python
+   class Person(Base):
+       __tablename__ = 'person'
+   ```
+3. 创建属性来映射到表中的字段，所有需要映射到表中的属性都应该为`Column`类型：
+   ```python
+   class Person(Base):
+        __tablename__ = 'person'  # 定义表的名字
+
+        # 2.在这个ORM模型中创建一些属性，来跟表中的字段进行一一映射，这些属性必须是 sqlalchemy 给我们提供好的数据类型
+        id = Column(Integer, primary_key=True, autoincrement=True)   # 定义列？
+        name = Column(String(50))
+        age = Column(Integer)
+   ```
+4. 使用 `Base.metadata.create_all()`来将模型映射到数据库中。
+5. 一旦使用了`Base.metadata.create_all()`将模型映射到模型后，即使改版了模型的字段，也不会重新映射了。
+
+### 5.3 SQLAlchemy 常用类型及参数
+
+#### 常用类型
+
+
+1. Integer：  整形
+2. Float： 浮点类型
+3. Boolean： 传递True/False 
+4. BECIMAL： 定点类型，解决Float精度丢失问题，这个参数只用的时候需要传递两个参数，第一个参数是用来标记这个字段总共能存储多少个数字，第二个参数表示小数点后有多少位。
+5. Enum： 枚举类型,指定某个字段只能是枚举中指定的几个值，不能为其他值。在ORM模型中，使用Enum 来作为枚举，实例如下
+   ```python
+    class Article(Base):
+        __tablename__ = 'article'
+        id = Column(Integer, primary_kdy=True, autoincrement=True)
+        tag = Column(Enum('python', 'flask', 'django'))
+   ```
+   在Python3中， 已经内置了 enum这个模块，我们也可以使用这个模块定义相关的字段，实例如下
+   ```python
+    class TagEnum(enum.Enum):
+        python = 'python'
+        flask = 'flask'
+        django = 'django'
+
+    class Article(Base):
+        __tablename__ = 'article'
+        id = Column(Integer, primary_kdy=True, autoincrement=True)
+        tag = Column(Enum(TagEnum))
+
+    article = Article(tag=TagEnum.python)
+   ```
+6. Date： 存储时间，只能存储年 月 日， 映射到数据库中是date类型。在Python代码中， 可以使用datetime.date来指定。实例代码如下：
+   ```python
+    class Article(Base):
+        # 创建数据库表名称
+        __tablename__ = 'article'
+        id = Column(Integer, primary_key=True, autoincrement=True)
+        # date 类型
+        create_date = Column(Date)
+    
+    from datetime import date
+    article = Article(create_date=date(2019, 5, 29))
+    
+   ```
+7. DateTime：可以存储 年 月 日 时  分 秒 毫秒等，映射到数据库中也是datetime类型。在Python代码中，可以使用 datetime.datetime 来指定。实例代码如下：
+   ```python
+    class Article(Base):
+        # 创建数据库表名称
+        __tablename__ = 'article'
+        id = Column(Integer, primary_key=True, autoincrement=True)
+        # date 类型
+        create_date = Column(DateTime)
+    
+    from datetime import datetime
+    article = Article(create_date=datetime(2019, 5, 29, 11, 11, 11))
+   ```
+8. Time： 存储时间可以存储时 分 秒， 映射到数据库中也是time类型。在Python代码中，可以使用datetime.time 来指定，实例代码：
+   ```python 
+   class Article(Base):
+        # 创建数据库表名称
+        __tablename__ = 'article'
+        id = Column(Integer, primary_key=True, autoincrement=True)
+        # date 类型
+        time = Column(Time)
+    
+    from datetime import time
+    article = Article(create_date=time(hour=11, minute=11, second=11))
+   ```
+9.  String： 字符串类型，使用时需要制定长度，区别于Text类型
+10. Text： 文本类型
+11. LONGTEXT： 只有MySQL中存在 需要在 from sqlalchemy.dialects.mysql import LONGTEXT 中导入。
+
+#### 常用参数
+
+1. primary_key： 设置某个字段为主键
+2. autoincrement： 设置字段自增长
+3. default： 设置某个字段的默认值。
+4. nullable： 指定某个字段是否可以为空，nullable=True 可以为空，nullable=False 不能为空。
+5. unique： 指定某个字段是否为空，默认是False（默认可以重复）
+6. onupdate： 在数据更新的时候，会调用这个参数指定的值或参数，在第一次插入这条数据的时候，不会用onupdate的值，只会用default的值。常用的就是 update_time (每次更新数据的时候都要更新的值)。
+7. name： 指定ORM中某个属性映射到表中的字段名，如果不指定，那么就会使用这个属性的名字来作为字段名，如果指定了，就会使用指定的这个值作为参数，这个参数也可以当做位置参数，在第一个参数来指定。
+   ```python
+    title = Column(String(50), name="my_title")
+    title = Column("my_title", String(50))
+   ```
+#### query可用参数
+
+
+
