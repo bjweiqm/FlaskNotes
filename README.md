@@ -942,4 +942,236 @@ conn.execute('select 1')
    5. func.sum： 求和。
    func 上，其实没有任何聚合函数，但是因为他底层实现了一些魔术方法，只要MySQL中有的聚合函数，都可以通过func来调用。
 
+#### filter 过滤条件
+过滤是数据提取的一个很重要的功能， 以下对一些常用的过滤条件进行解释，并且通过这些过滤条件都是只能通过filter方法实现的。
+
+1. equal:
+```python 
+art  = sesson.query(Article).filter(Article.title == 'title0').first()
+print(art)
+```
+
+2. not  equal 
+```python
+art = sesson.query(Article).filter(Article.title != 'title0').all()
+print(art)
+```
+
+3. like 模糊查询 ilike  不区分大小写
+```python 
+art = sesson.query(Article).filter(Article.title.like('title%')).all()
+print(art)
+```
+
+4. in 
+```python
+art = sesson.query(Article).filter(Article.title.in_(['title1', 'title2'])).all()
+print(art)
+```
+
+5. not in 两种实现方式. < ~ >
+ ```python
+art = sesson.query(Article).filter(Article.title.notin_(['title1', 'title2', 'title3'])).all()
+print(art)
+art = sesson.query(Article).filter(~Article.title.in_(['title1', 'title2', 'title3'])).all()
+print(art)
+```
+
+6. is null | is not null
+
+```python
+art = sesson.query(Article).filter(Article.title == None).all()
+
+```
+
+7. and
+
+```python
+art = sesson.query(Article).filter(and_(Article.title='title01', Article.id=5)).all()
+```
+
+8. or
+```python 
+art = sesson.query(Article).filter(or_(Article.title == 'title2', Article.id = 3)).all()
+print(art)
+```
+
+如果想要查看ORM底层SQL语句，可以在filter方法后面不要在执行任何方法打印就可以看到了，比如：
+```python
+art = sesson.query(Article).filter(or_(Article.title == 'title2', Article.id = 3))
+print(art)
+```
+
+### 5.4 表关系
+
+#### 5.4.1 外键
+使用SQLAlchemy 创建外键非常简单，在从表中增加一个字段，指定这个字段外键的是那个表的那个字段就可以了，从表中外键字段，必须和父表的主键字段类型保持一致。
+
+
+```python
+
+from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+import random
+
+engine = create_engine('sqlite:///test1.db?check_same_thread=False', echo=True)
+
+Base = declarative_base(engine)
+sesson = sessionmaker(engine)()
+
+
+class User(Base):
+    __tablename__='user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+
+    def __repr__(self):
+        return "<User(username:{})>".format(self.username)
+
+
+class Article(Base):
+    __tablename__='article'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(50), nullable=False)
+    content = Column(Text, nullable=False)
+
+    uid = Column(Integer, ForeignKey("user.id", ondelete='RESTRICT'))
+
+    def __repr__(self):
+        return "<Article(title: {}, content: {})>".format(self.title, self.content)
+
+
+
+Base.metadata.create_all()
+
+sesson.commit()
+
+```
+
+#### 5.4.2 外键约束 ondelete=”RESTRICT“
+
+1. RESTRICT: 父表数据被删除，会阻止删除，默认就是这一项
+2. NO ACTION: 在MySQL中，同 RESTRICT
+3. CASCADE: 级联删除
+4. SET NULL: 父表数据被删除，字表数据会被设置为NULL 
+
+
+#### 5.4.3 ORM 关系以及一对多
+
+MySQL 级别的外键，还不够 ORM，必须要拿到一个表的外键，然后通过这个外键再去另外一张表中查找，这样太麻烦，SQLAlchemy提供了一个`relationship`，这个类可以定义属性，以后再访问相关关联的表的时候就直接可以通过属性访问的方式就可以访问得到了，示例代码：
+```Python
+class User(Base):
+    __tablename__='user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+
+    # articles = relationship("Article")
+
+    def __repr__(self):
+
+        return "<User(username: {})>".format(self.username)
+
+
+class Article(Base):
+    __tablename__='article'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(50), nullable=False)
+    content = Column(Text, nullable=False)
+
+    uid = Column(Integer, ForeignKey("user.id", ondelete="RESTRICT"))
+
+    author = relationship("User", backref="article")
+
+    def __repr__(self):
+        return "<Article(title: {}, content: {})>".format(self.title, self.content)
+```
+
+另外可以通过 `backref` 来指定反向访问的属性名称。
+
+#### 5.4.4 一对一关系
+在`sqlalchemy`中，如果想要将两个模型映射成一对一关系，那么应该在父模型中，指定引用的时候，要传递一个 `uselist=False` 这个参数进去。就是告诉父模型，以后引用这个从模型的时候，不再是一个对象了。实例代码如下：
+```python
+class User(Base):
+    __tablename__='user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+
+    # 指定针对 UserExtend 一对一关系。
+    extend = relationship('UserExtend', uselist=False)
+
+    def __repr__(self):
+
+        return "<User(username: {})>".format(self.username)
+
+
+class UserExtend(Base):
+    __tablename__='user_extend'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    school = Column(String(50), nullable=False)
+    uid = Column(Integer, ForeignKey('user.id'))
+    # 一对一关系。
+    user = relationship("User", backref=backref("extend", uselist=False) )
+
+    def __repr__(self):
+        return "<UserExtend(shool: {})>".format(self.school)
+
+```
+当然，也可以借助 sqlalchemy.orm.backref 来简化代码：
+
+```python 
+class User(Base):
+    __tablename__='user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+
+    # articles = relationship("Article")
+    # 指定针对 UserExtend 一对一关系。
+    # extend = relationship('UserExtend', uselist=False)
+
+    def __repr__(self):
+
+        return "<User(username: {})>".format(self.username)
+
+
+class UserExtend(Base):
+    __tablename__='user_extend'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    school = Column(String(50), nullable=False)
+    uid = Column(Integer, ForeignKey('user.id'))
+    # 一对一关系。
+    user = relationship("User", backref=backref("extend", uselist=False) )
+
+    def __repr__(self):
+        return "<UserExtend(shool: {})>".format(self.school)
+```
+
+#### 5.4.5 多对多关系
+
+1. 多对多的关系需要一个中间表来绑定他们之间的关系
+2. 先把两个需要做多对多的模型定义出来
+3. 只用Table定义一个中间表，中间表一般就是包含两个模型的外键字段就可以了， 并且让他们两个来作为一个 复合主键
+4. 在两个需要做多对多的模型中随便选择一个模型， 定义一个 relationship 属性，来绑定三者之间的关系，在使用 relationship 的时候，需要传入一个 secondary=中间件。
+
+
+#### 5.4.6 ORM层面删除数据：
+ORM层面删除数据，会无视MySQL级别的外键约束。直接回将对应的数据删除，然后将从表中的那个外键设置null。 如果想要避免这种行为，应该将从表中的外键的 `nullable=Fasle`。
+
+```
+sesson.delete(tags)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
