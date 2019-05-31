@@ -1,3 +1,4 @@
 {
     "python.pythonPath": "/anaconda3/envs/FlaksEnv/bin/python",
+    "editor.wordWrap": "on",
 }

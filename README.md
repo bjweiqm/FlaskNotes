@@ -1163,8 +1163,229 @@ sesson.delete(tags)
 
 
 
+#### 5.4.8 排序
+
+1. order_by：可以指定根据这个表中的某个字段进行排序， 如果在前面加了一个`-`，代表是降序排序。
+2. 在模型定义的时候指定默认排序：有些时候，不想每次都在查询的时候都指定排序的方式，可以在定义模型的时候就指定排序方式。有一下两种方式：
+    - relationship 的 order_by参数：在指定relationship的时候，传递order_by参数来指定排序的字段
+    - 在模型定义中，添加一下代码：
+    '''Python
+    __mapper_args = {
+        "order_by": titles
+    }
+    '''
+    既可让文章使用标题来进行排序。
+3. 正序排序与倒序排序： 默认是正序排序，如果需要使用倒序排序，那么可以使用这个字段的 `desc()`方法，或者是在排序的时候使用这个字段的字符串名字，然后在前面添加一个 `-` 。
+
+#### 5.4.9 limit offset 和切片
+
+1. limit : 可以限制每次查询的时候只查询几条数据。
+2. offset : 可以限制查找数据的时候过滤掉前面多少条
+3. 切片 : 可以对 query 对象使用切片操作，来获取想要的数据 , 可以使用 slice(start, stop) 方法来做切片操作，也可以使用[start:stop] 的方式来进行切片操作。一般在实际开发中，中括号的相识是用的比较多的。示例代码如下：
+
+```python 
+from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker,relationship
+import random, datetime
+
+engine = create_engine('sqlite:///test1.db', echo=True)
+
+Base = declarative_base(engine)
+session = sessionmaker(engine)()
 
 
+
+class Article(Base):
+    __tablename__ = 'article'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(50))
+    create_time = Column(DateTime, default=datetime.datetime.now)
+
+    def __repr__(self):
+
+        return "<Article(id: {}, title: {}, create_time: {})>".format(
+            self.id, self.title, self.create_time
+        )
+
+def test_():
+    Base.metadata.drop_all()
+    Base.metadata.create_all()
+
+
+    for x in range(100):
+        title = 'title {}'.format(x)
+        article = Article(title=title)
+        session.add(article)
+
+# article = session.query(Article).all()
+# article = session.query(Article).limit(10).all()
+# article = session.query(Article).offset(10).limit(10).all()
+# article = session.query(Article).order_by(Article.id.desc()).offset(10).limit(10).all()
+# article = session.query(Article).order_by(Article.id.desc()).slice(0, 10).all()
+article = session.query(Article).order_by(Article.id.desc())[0: 10]
+print(article)
+
+session.commit()
+
+```
+
+##### 懒加载
+
+在一对多，或者多对多的时候，如果想要获取多的一部分的数据的时候，往往能通过一个属性就可以全部获取了，比如有一个作者，想要获取这个作者的所有文章，那么就可以通过 user.articles 就可以获取所有的。但有时候我们不想获取所有的数据，比如只想获取作者今天发表的文章，那么这个时候就可以给 relationship 传递一个 lazy='dynamic',以后通过 user.articles 获取到的就不是一个列表，而是一个 AppenderQuery 对象了，这样就可以对这个对象在进行一层过滤和排序操作。
+通过 lazy='dynamic' , 获取出来的多的那一部分的数据，就是一个 AppenderQuery 对象了，这种对象既可以添加新数据， 也可以跟 Query 一样，可以再进行一层过滤。
+总而言之一句话： 如果你在获取数据的时候，想要在多的那一边的数据再进行一层过滤，那么就可以考虑使用 lazy='dynamic'。
+
+lazy 可用选项：
+1. select ： 这个是默认选项，还是拿 user.articles 的例子，如果你没有访问 user.articles 这个属性，那么 sqlalchemy 就不会从数据库中查找文章。 一旦你访问了这个属性， 那么 sqlalchemy 就会立马从数据库中查找所有的文章，并把所有的文章组装成一个列表返回。这也是懒加载。
+2. dynamic : 这个就是刚讲的，就是在访问 user.articles 的时候返回回来的不是一个列表， 而是 AppenderQuery 对象。
+
+```python 
+from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker,relationship, backref
+import random, datetime
+
+engine = create_engine('sqlite:///test4.db', echo=True)
+
+Base = declarative_base(engine)
+session = sessionmaker(engine)()
+
+
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+
+    def __repr__(self):
+        return "<User(id: {}, username: {})>".format(self.id, self.username)
+
+
+class Article(Base):
+    __tablename__ = 'article'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(50), nullable=False)
+    create_time = Column(DateTime, nullable=False, default=datetime.datetime.now)
+    uid = Column(Integer, ForeignKey('user.id'))
+    # 写在多的一方， 懒加载 lazy='dynamic'
+    author = relationship('User', backref=backref('article', lazy='dynamic'))
+
+    def __repr__(self):
+
+        return "<Article(id: {}, title: {}, create_time: {})>".format(
+            self.id, self.title, self.create_time
+        )
+
+def t4st():
+    Base.metadata.drop_all()
+    Base.metadata.create_all()
+
+
+    user = User(username='zhiliao')
+
+    for x in range(100):
+        article = Article(title="title {}".format(x))
+        article.author = user
+        # article 不是一个列表，不能使用append添加数据
+        # article.author.append(user)
+        session.add(article)
+
+user = session.query(User).first()
+# 是一个query对象
+# print(user.article)
+# print(user.article.filter(Article.id > 50).all())
+# 因为是AppendQuery，所以可以继续追加数据进去
+articles = Article(title='title 100')
+user.article.append(articles)
+session.commit()
+
+```
+ 
+### 5.5 高级查询
+
+#### 5.5.1 group_by
+
+根据某个字段进行分组。比如想要根据性别进行分组，来统计每个分组分别有多少人，那么可以使用一下代码来完成：
+
+```python 
+from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime, Enum
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker,relationship, backref
+import random, datetime
+
+engine = create_engine('sqlite:///test4.db', echo=True)
+
+Base = declarative_base(engine)
+session = sessionmaker(engine)()
+
+
+class User(Base):
+
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+    age = Column(Integer, default=0)
+    gender = Column(Enum('male', 'female', 'secret'), default='male')
+
+    def __repr__(self):
+        return "<User(username: {}, age: {}, gender: {})>".format(self.username, self.age, self.gender)
+
+def init_test():
+    Base.metadata.drop_all()
+    Base.metadata.create_all()
+
+
+    session.add_all(
+        [
+            User(username="王武", age= 17, gender='male'),
+            User(username="赵柳", age= 17, gender='male'),
+            User(username="张三", age= 18, gender='female'),
+            User(username="王大武", age= 19, gender='female'),
+            User(username="知了", age= 20, gender='female'),
+        ]
+    )
+
+    session.commit()
+
+# 各年龄段的人数 group_by()
+user = session.query(User.age, func.count(User.id)).group_by(User.age).all()
+print(user)
+
+```
+
+#### 5.5.2 having:
+
+having是对查找结果进一步过滤，比如只想要看未成年人的数量，那么就可以首先对年龄进行分组统计人数，然后在对分组进行having过滤。实例代码如下： 
+```python
+from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime, Enum
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker,relationship, backref
+import random, datetime
+
+engine = create_engine('sqlite:///test4.db', echo=True)
+
+Base = declarative_base(engine)
+session = sessionmaker(engine)()
+
+
+class User(Base):
+
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+    age = Column(Integer, default=0)
+    gender = Column(Enum('male', 'female', 'secret'), default='male')
+
+    def __repr__(self):
+        return "<User(username: {}, age: {}, gender: {})>".format(self.username, self.age, self.gender)
+
+# having 
+user = session.query(User.age, func.count(User.id)).group_by(User.age).having(User.age < 18).all()
+print(user)
+
+```
+
+#### 5.5.3 join:
 
 
 
