@@ -1,4 +1,3 @@
-[toc]
 # FlaskNotes
 
 Flask Nots
@@ -44,7 +43,7 @@ Flask的灵活度非常之高，他不会帮你做太多的决策，即使已经
     '''
     @File    :   app.py
     @Time    :   2019/04/13 08:46:32
-    @Author  :   WM 
+    @Author  :   WM
     @Version :   1.0
     @License :   (C)Copyright 2017-2018, Liugroup-NLPR-CASIA
     @Desc    :   None
@@ -122,7 +121,6 @@ Flask的灵活度非常之高，他不会帮你做太多的决策，即使已经
 1. 这种方式，加载配置文件，不局限于使用 `py`文件，普通的`txt`文件同样也适合
 2. 这种方式可以传递 `silent=True`， 那么静态文件没有找到的时候不会抛出异常。
 
-
 ### 2.3 URL与试图函数映射
 
 #### 2.3.1 传递参数
@@ -149,21 +147,24 @@ def detail(url_path, id):
 
 #### 2.3.3 接收用户传递参数的方式
 
-1. 第一种，就是上面讲的方式（将参数嵌入到路径中）;` 优势：方便搜索引`擎抓取
+1. 第一种，就是上面讲的方式（将参数嵌入到路径中）;`优势：方便搜索引`擎抓取
 2. 第二种，就是使用查询的方式，就是通过`?key=value`的形式传递的。
+
 ```python
 @app.route('/d/')
 def d():
     wd = request.args.get('wd')
     return "您传递的参数是{}".format(wd)
 ```
-3. 如果你的页面想要做`SEO`优化，就是被搜索引擎搜索到，那么就推荐使用第一种方式（path的方式），如果不在乎搜索引擎优化，那么就可以使用第二种。（查询字符串的方式）
+
+1. 如果你的页面想要做`SEO`优化，就是被搜索引擎搜索到，那么就推荐使用第一种方式（path的方式），如果不在乎搜索引擎优化，那么就可以使用第二种。（查询字符串的方式）
 
 ### 2.4 url_for URL转换器
 
 #### 2.4.1 基本使用
 
 `url_for`第一个参数，应该是试图函数的名字的字符串，后面的参数就是传递给URL。如果传递的参数之前在 URL 中已经定义了，那么这个参数就会被当成 path 的形式给 URL ，如果这个参数之前没有在 URL 中定义，那么奖变成查询字符串的形式放到 URL 中。
+
 ```python
     @app.route('/list/<page>/')
     def my_list(page):
@@ -176,20 +177,23 @@ def d():
 
 1. 将来如果修改了 URL ，但没有修改该 URL 对应的函数名， 就不用到处去替换 URL 了
 2. url_for 会自动的处理那些特殊的字符，不需要手动处理。
-```python 
+
+```python
     url = url_for('login', next='/')
     # 会自动的将/编码，不需要手动去处理
     # url: /login/?next=%2F
 ```
-> 强烈建议以后再使用URL的时候，使用url_for来反转URL。
 
+> 强烈建议以后再使用URL的时候，使用url_for来反转URL。
 
 #### 2.4.3 自定义URL转换器
 
 ##### 2.4.3.1自定义URL转换器的方式
+
 1. 导入`from werkzeug.routing import BaseConverter` 实现一个类，继承自`BaseConverter`
 2. 在自定义的类中，重写 `regex`， 也就是这个变量的正则表达式
 3. 将自定义的类，映射到`app.url_map.converters`上。例如：
+
 ```python
     class TelephoneConverter(BaseConverter):
         # 一个URL中含有手机号码的变量，必须先定这个变量格式满足手机号码的格式
@@ -206,7 +210,6 @@ def d():
 
 这个方法的返回值，会将在调用url_for函数的时候生成符合要求的URL形式。
 
-
 #### 2.4.4 必会的小细节知识点
 
 url_detall.py
@@ -222,12 +225,14 @@ Flask 默认使用5000端口，如果想更换端口，那么可以设置`post=9
 ##### 2.4.4.3 URL唯一
 
 在定义URL的时候，一定要记得在最后加一个斜杠
+
 1. 如果不加斜杠，那么在浏览器中访问这个URL的时候，如果最后加了斜杠，那么就访问不到，这样用户体验不好
 2. 搜索引擎会将不加斜杠的和加斜杠的视为两个不同的URL，而其实加和不加斜杠的都是同一个URL， 那么就会给搜索引擎造成一个误解，加了斜杠，就不会出现没有斜杠的情况。
 
 ##### 2.4.4.4 get请求和post请求
 
 在网络请求中有许多请求方式，比如：`get`、`post`、`delete`、`put`请求等，最常用的就是 `get` 和 `]` 请求。
+
 1. `get` 请求：只会在服务器上获取资源，不会更改服务器的状态，这种方式推荐使用get请求。
 2. `post`请求： 会给服务器提交一些数据或文件，一般post请求是会对服务器的状态产生影响，那么这种请求推荐使用post请求。
 3. 关于传参方式
@@ -238,6 +243,7 @@ Flask 默认使用5000端口，如果想更换端口，那么可以设置`post=9
 ### 2.5 页面跳转和重定向
 
 重定向分为永久性重定向和暂时性重定向，在页面上体现的操作就是浏览器会从一个页面自动跳转到另外一个页面。比如用户访问了一个需要权限的页面，但是该用户当前并没有登录，因此我们应该给他重定向到登录页面。
+
 - 永久性重定向：HTTP 的状态码是 301， 多用于旧网站被废弃了要转到一个新的网址确保用户访问。
 - 暂时性重定向：HTTP 的状态码是 302， 表示页面的暂时性跳转。比如访问一个需要权限的网站，如果当前用户没有登录，应该重定向到登录页面，这种情况下，应该使用暂时性重定向。
   
@@ -276,6 +282,7 @@ if __name__ == '__main__':
 ### 2.6 关于响应(Response)
 
 试图函数的返回值会被自动转换为一个响应对象，Flask的转换逻辑如下：
+
 - 如果返回的是一个合法的响应对象，则直接返回。「其实底层将这个字符串包装成了一个 `Response`对象。」
 - 如果返回的是一个字符串， 那么Flask会重新创建一个`werkzeug.wrappers.Response`对象， Response将该字符串作为主体，状态码为200， MIME类型为：text/html， 然后返回Response对象。
 - 如果返回的是一个元组，元组中的数据类型是(response.status.headers).status值会覆盖默认的200状态码， headers可以是一个列表或字典，作为额外的消息头。「元组的形式是(响应体,状态码, 头部信息)，也不一定三个都要，写两个也是可以的。返回的元组，在底层也是包装成了`Response`对象」
@@ -372,7 +379,6 @@ def index():
 1. 在渲染模板的时候，默认会从项目目录下的 `templates`目录下查找模板。
 2. 如果不想把模板文件放在`templates`目录下，可以在Flask初始化的时候指定`template_folder`的路径，来指定模板的路径
 
-
 ### 3.2 模板传参
 
 1. 在使用`render_template`渲染模板的时候，可以传递关键字参数，以后直接在模板中使用就可以了
@@ -399,25 +405,25 @@ def index():
 ```jinja
 {# 当变量未定义时，显示默认字符串，可以缩写为d #}
 <p>{{ name | default('No name', true) }}</p>
- 
+
 {# 单词首字母大写 #}
 <p>{{ 'hello' | capitalize }}</p>
- 
+
 {# 单词全小写 #}
 <p>{{ 'XML' | lower }}</p>
- 
+
 {# 去除字符串前后的空白字符 #}
 <p>{{ '  hello  ' | trim }}</p>
- 
+
 {# 字符串反转，返回"olleh" #}
 <p>{{ 'hello' | reverse }}</p>
- 
+
 {# 格式化输出，返回"Number is 2" #}
 <p>{{ '%s is %d' | format("Number", 2) }}</p>
- 
+
 {# 关闭HTML自动转义 #}
 <p>{{ '<em>name</em>' | safe }}</p>
- 
+
 {% autoescape false %}
 {# HTML转义，即使autoescape关了也转义，可以缩写为e #}
 <p>{{ '<em>name</em>' | escape }}</p>
@@ -425,59 +431,60 @@ def index():
 ```
 
 #### 3.4.2 数值操作
-```
+
+```html
 {# 四舍五入取整，返回13.0 #}
 <p>{{ 12.8888 | round }}</p>
- 
+
 {# 向下截取到小数点后2位，返回12.88 #}
 <p>{{ 12.8888 | round(2, 'floor') }}</p>
- 
+
 {# 绝对值，返回12 #}
 <p>{{ -12 | abs }}</p>
 ```
 
 #### 3.4.3 列表操作
 
-```
+```html
 {# 取第一个元素 #}
 <p>{{ [1,2,3,4,5] | first }}</p>
- 
+
 {# 取最后一个元素 #}
 <p>{{ [1,2,3,4,5] | last }}</p>
- 
+
 {# 返回列表长度，可以写为count #}
 <p>{{ [1,2,3,4,5] | length }}</p>
- 
+
 {# 列表求和 #}
 <p>{{ [1,2,3,4,5] | sum }}</p>
- 
+
 {# 列表排序，默认为升序 #}
 <p>{{ [3,2,1,5,4] | sort }}</p>
- 
+
 {# 合并为字符串，返回"1 | 2 | 3 | 4 | 5" #}
 <p>{{ [1,2,3,4,5] | join(' | ') }}</p>
- 
+
 {# 列表中所有元素都全大写。这里可以用upper,lower，但capitalize无效 #}
 <p>{{ ['tom','bob','ada'] | upper }}</p>
 ```
 
 #### 3.4.4 字典列表操作
-```
+
+``` html
 {% set users=[{'name':'Tom','gender':'M','age':20},
               {'name':'John','gender':'M','age':18},
               {'name':'Mary','gender':'F','age':24},
               {'name':'Bob','gender':'M','age':31},
               {'name':'Lisa','gender':'F','age':19}]
 %}
- 
- 
+
 {# 按指定字段排序，这里设reverse为true使其按降序排 #}
 <ul>
 {% for user in users | sort(attribute='age', reverse=true) %}
      <li>{{ user.name }}, {{ user.age }}</li>
 {% endfor %}
 </ul>
- 
+
 {# 列表分组，每组是一个子列表，组名就是分组项的值 #}
 <ul>
 {% for group in users|groupby('gender') %}
@@ -487,7 +494,7 @@ def index():
     {% endfor %}</ul></li>
 {% endfor %}
 </ul>
- 
+
 {# 取字典中的某一项组成列表，再将其连接起来 #}
 <p>{{ users | map(attribute='name') | join(', ') }}</p>
 ```
@@ -495,7 +502,8 @@ def index():
 #### 3.4.5 Flask内置过滤器
 
 Flask提供了一个内置过滤器”tojson”，它的作用是将变量输出为JSON字符串。这个在配合Javascript使用时非常有用。我们延用上节字典列表操作中定义的”users”变量
-```
+
+```javascript
 <script type="text/javascript">
 var users = {{ users | tojson | safe }};
 console.log(users[0].name);
@@ -515,32 +523,40 @@ def double_step_filter(l):
 
 我们定义了一个”double_step_filter”函数，返回输入列表的偶数位元素（第0位，第2位,..）。怎么把它加到模板中当过滤器用呢？Flask应用对象提供了”add_template_filter”方法来帮我们实现。我们加入下面的代码：
 
-```
+```python
 app.add_template_filter(double_step_filter, 'double_step')
 ```
+
 函数的第一个参数是过滤器函数，第二个参数是过滤器名称。然后，我们就可以愉快地在模板中使用这个叫”double_step”的过滤器了：
-```
+
+```python
 {# 返回[1,3,5] #}
 <p>{{ [1,2,3,4,5] | double_step }}</p>
 ```
 
 ##### 3.4.6.2 第二种方式(装饰器方法)
 
-Flask还提供了添加过滤器的装饰器”template_filter”，使用起来更简单。下面的代码就添加了一个取子列表的过滤器。装饰器的参数定义了该过滤器的名称”sub”。 例子:` template_app.py`  and  `filter.html`;
-```
+Flask还提供了添加过滤器的装饰器”template_filter”，使用起来更简单。下面的代码就添加了一个取子列表的过滤器。装饰器的参数定义了该过滤器的名称”sub”。 例子:`template_app.py`  and  `filter.html`;
+
+```python
 @app.template_filter('sub')
 def sub(l, start, end):
     return l[start:end]
 ```
+
 我们在模板中可以这样使用它：
-```
+
+```python
 {# 返回[2,3,4] #}
 <p>{{ [1,2,3,4,5] | sub(1,4) }}</p>
 ```
+
 Flask添加过滤器的方法实际上是封装了对Jinja2环境变量的操作。上述添加”sub”过滤器的方法，等同于下面的代码。
+
 ```python
 app.jinja_env.filters['sub'] = sub
 ```
+
 我们在Flask应用中，不建议直接访问Jinja2的环境变量。如果离开Flask环境直接使用Jinja2的话，就可以通过”jinja2.Environment”来获取环境变量，并添加过滤器。
 
 ### 3.5 逻辑处理（if、for）
@@ -570,12 +586,15 @@ loop.length| 序列的长度
 使用宏的时候，参数可以为默认值。
 
 定义宏
+
 ``` html
 {% macro input(name="", value="", type="") %}
     <input type="{{ type }}" name="{{ name }}" value="{{ value }}">
 {% endmacro %}
 ```
+
 使用宏
+
 ``` html
 <table>
     <tbody>
@@ -598,12 +617,13 @@ loop.length| 序列的长度
 #### 3.6.1 import 宏
 
 flask中 导入宏是从 templates 中开始计算路径
+
 1. import "宏文件路径" as 'xxx'
 2. from "宏文件的路径" import 宏的名字 [as xxx]
 3. 宏文件的路径，不要以相对路径去寻找，都要以`templates`最为绝对路径去查找。
 4. 如果想要在导入宏的时候，就把当前模板的一些参数传给宏所在的模板中，那么久应该在导入的时候使用 `with context`。实例：`from 'xxx.html' import input with context`
 
-```
+```html
 # 第一种导入方式
 {% from "macro_base.html" import input %}
 
@@ -627,12 +647,13 @@ flask中 导入宏是从 templates 中开始计算路径
 ##### 3.7.1.1 set with 语句
 
 在模板中，可以使用`set`语句来定义变量，一旦定义了变量，那么在后面的代码中，都可以使用这个变量，就类似于Python的变量定义是一样的。
+
 ```html
 {%set username='alex'%}
 <p>用户名{{ username }}</p>
 ```
 
-`with` 语句定义的变量，只能在 `with` 语句块中使用，超过了这个代码块，就不能再使用了。 `with` 中使用 `set` 定义了变量，超出 `with` 块后也是不能使用的。 
+`with` 语句定义的变量，只能在 `with` 语句块中使用，超过了这个代码块，就不能再使用了。 `with` 中使用 `set` 定义了变量，超出 `with` 块后也是不能使用的。
 
 ```html
 {% with classroom = '一年级三班' %}
@@ -642,7 +663,7 @@ flask中 导入宏是从 templates 中开始计算路径
 
 #### 3.7.2 加载静态文件
 
-```
+```css
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
 ```
 
@@ -655,31 +676,37 @@ flask中 导入宏是从 templates 中开始计算路径
     2. `{% extends 'base.html' %}`
 3. block语法
     1. 一般在父模板中，定义一些公用的代码，子模板可能要根据具体的需求实现不同的代码，这时候父模板就应该有能力提供一个接口，让父模板来实现，从而实现具体业务需求的功能。
-    
-4. 调用另外一个block中的代码
-如果想要在另外一个模板中使用其他模板中的代码，那么可以通过 `{{ self.其他block名字() }}`就可以了。示例代码如下：
-```html
-{% block title %}
-    标题
-{%endblock%}
 
-{% block body_block %}
-    {{ self.title() }}
-    <p>代码</p>
-{% endblock body_block %}
-```
+4. 调用另外一个block中的代码
+
+    如果想要在另外一个模板中使用其他模板中的代码，那么可以通过 `{{ self.其他block名字() }}`就可以了。示例代码如下：
+
+    ```html
+    {% block title %}
+        标题
+    {%endblock%}
+
+    {% block body_block %}
+        {{ self.title() }}
+        <p>代码</p>
+    {% endblock body_block %}
+    ```
+
 5. 其他注意事项
     1. 子模板中的代码，第一行，应该是 `extends`
     2. 子模板中，如果要实现自己的代码，应该放到block中，如果放到其他地方，那么久不会被渲染
 
 在父模板定义入口
-```
+
+```html
 {% block body_block %}
-        
+
 {% endblock body_block %}
 ```
+
 在子模板中调用
-```
+
+```html
 {% extends 'inherit/base.html' %}
 {% block body_block %}
     <div>
@@ -687,8 +714,10 @@ flask中 导入宏是从 templates 中开始计算路径
     </div>
 {% endblock body_block %}
 ```
+
 在子模板中保留父模板中的代码
-```
+
+```html
 {% extends 'inherit/base.html' %}
 {% block body_block %}
     {{ super() }}
@@ -728,36 +757,45 @@ flask中 导入宏是从 templates 中开始计算路径
 
 ### 4.3 蓝图 BluePrint
 
-1. 蓝图的作用就是让我们的flask项目更加模块化，结构更加清晰。可将相同模块的视图函数放在同一个蓝图下，同一个文件中，方便管理。
-2. 基本语法
-    - 在蓝图文件中导入蓝图， 
+- 蓝图的作用就是让我们的flask项目更加模块化，结构更加清晰。可将相同模块的视图函数放在同一个蓝图下，同一个文件中，方便管理。
+- 基本语法
+
+    ~ 在蓝图文件中导入蓝图，
+
     ```python
     from flask import Blueprint
     user_bp = Blueprint('user', __name__)
     ```
-    - 在APP文件中注册蓝图
+
+    ~ 在APP文件中注册蓝图
+
     ```python
     from blueprint.user import user_bp
     app.regist_blueprint(user_bp)
     ```
-3. 如果想要某个蓝图下的所有url都有一个url前缀，那么可以在定义蓝图的时候，指定 `url_prefix` 参数
-```python
-user_bp = Blueprint('user', __name__, url_prefix='/user')
-```
+
+- 如果想要某个蓝图下的所有url都有一个url前缀，那么可以在定义蓝图的时候，指定 `url_prefix` 参数
+
+    ```python
+    user_bp = Blueprint('user', __name__, url_prefix='/user')
+    ```
+
 在定义 `url_prefix` 的时候，要注意后面的 斜杠，如果给了那么以后再定义url时，就不要在全面加斜杠。
 
-4. 蓝图模板文件的查找：
-    - 如果项目中的 templates 文件夹中有相应的模板文件，就直接使用了。
-    - 如果项目中的 templates 文件夹中没有相应的模板文件，那么就到在定义蓝图的时候指定的路径中寻找。并且蓝图中指定的路径可以为相对路径，相对的是当前这个蓝图文件所在的目录。比如：
+- 蓝图模板文件的查找：
+    ~ 如果项目中的 templates 文件夹中有相应的模板文件，就直接使用了。
+    ~ 如果项目中的 templates 文件夹中没有相应的模板文件，那么就到在定义蓝图的时候指定的路径中寻找。并且蓝图中指定的路径可以为相对路径，相对的是当前这个蓝图文件所在的目录。比如：
+
     ```python
     news_bp =  Blueprints('news', __name__, url_prefix='/news', template_folder='zhiliao')
     ```
+
     因为这个蓝图文件是在 blueprints/news.py，那么就会到 blueprints这个文件夹下的 zhiliao 文件夹中寻找模板文件。
 
-5. 蓝图中静态文件的查找规则：
-    - 在模板文件中，加载静态文件，如果使用 url_for('static'), 那么就会在APP指定的静态文件夹目录下查找静态文件。
-    - 如果在加载静态文件的时候，指定了蓝图的名字，比如 news.static , 那么就会到这个蓝图指定的static_folder下查找静态文件。
-6. url_for 翻转蓝图中的视图函数为URL：
+- 蓝图中静态文件的查找规则：
+    ~ 在模板文件中，加载静态文件，如果使用 url_for('static'), 那么就会在APP指定的静态文件夹目录下查找静态文件。
+    ~ 如果在加载静态文件的时候，指定了蓝图的名字，比如 news.static , 那么就会到这个蓝图指定的static_folder下查找静态文件。
+- url_for 翻转蓝图中的视图函数为URL：
     如果使用蓝图，那么以后想要翻转蓝图中的视图函数为URL，那么就应该在使用url_for 的时候指定这个蓝图。比如 news.news_list。否则就找不到这个 endpoint 。在模板中的url_for 同样也是要满足这个条件，就是指定蓝图的名字。
 
 #### 4.4 蓝图实现子域名
@@ -765,12 +803,15 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 1. 使用蓝图技术。
 2. 在创建蓝图对象的时候，需要传递一个 subdomain 参数， 来指定这个子域名的前缀，例如： cms_bp = Blueprint('cms', __name__, subdomain='cms').
 3. 需要在APP文件中， 配置 app.config 的 SERVER_NAME 参数。例如：
-    ```python 
+
+    ```python
     app.config['SERVER_NAME'] = 'jd.com:5000'
     ```
+
     - ip 地址不能有子域名
     - localhost 不能有子域名
 4. 要修改host, 添加域名与本机的映射。子域名也需要做映射。
+
     ```python
     127.0.0.1  jd.com
     127.0.0.1  cms.jd.com
@@ -783,17 +824,19 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 ### 5.2 SQLAlchemy 介绍和基本使用
 
 #### 5.2.1 依赖
+
 1. 安装MySQL
 2. 安装 MySQLdb：MySQLdb是用来操作MySQL的包，可以通过pip来安装 `pip install mysql-python` | `python2`
 3. 安装 pymysql：pymysql是用来操作MySQL的包，可以通过pip来安装 `pip install pymysql` | `python3`
 4. SQLAlchemy: SQLAlchemy是一个数据库的orm框架，我们在后面会用到，可以通过pip 来安装 `pip install SQLAlchemy`
 
-
 #### 5.2.2 使用SQLAlchemy
 
 1. 连接数据库
+
 使用SQLAlchemy去连接数据库，需要使用一些配置信息，然后将他们组合成满足条件的字符串；
-```python 
+
+```python
 HOSTNAME = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'first_sqlalchemy'
@@ -804,6 +847,7 @@ DB_URL = 'mysql+pymysql://{username}:{password}@{host}:{port}/{db}?charset=utf8'
 )
 
 ```
+
 然后使用 create_engine 创建一个引擎 engine ， 然后在调用这个引擎的 connect 方法，就可以得到这个对象，然后就可以通过这个对象对数据库进行操作了
 
 ```python
@@ -822,19 +866,25 @@ conn.execute('select 1')
 模型对象与数据库表的映射
 
 ##### 5.2.3.1 将ORM模型映射到数据库中：
+
 1. 用 declarative_base 根据 engine 创建一个ORM基类
+
    ```python
    from sqlalchemy.ext.declarative import declarative_base
 
     engine = create_engine('sqlite:///ceshi.db?check_same_thread=False', echo=True)
     Base = declarative_base(engine)
    ```
+
 2. 用这个 Base 类作为基类来写自己的ORM类，要定义`__tablename__`类属性，来指定这个模型映射到数据库中的表名。
+
    ```python
    class Person(Base):
        __tablename__ = 'person'
    ```
+
 3. 创建属性来映射到表中的字段，所有需要映射到表中的属性都应该为`Column`类型：
+
    ```python
    class Person(Base):
         __tablename__ = 'person'  # 定义表的名字
@@ -844,6 +894,7 @@ conn.execute('select 1')
         name = Column(String(50))
         age = Column(Integer)
    ```
+
 4. 使用 `Base.metadata.create_all()`来将模型映射到数据库中。
 5. 一旦使用了`Base.metadata.create_all()`将模型映射到模型后，即使改版了模型的字段，也不会重新映射了。
 
@@ -851,19 +902,21 @@ conn.execute('select 1')
 
 #### 常用类型
 
-
 1. Integer：  整形
 2. Float： 浮点类型
-3. Boolean： 传递True/False 
+3. Boolean： 传递True/False
 4. BECIMAL： 定点类型，解决Float精度丢失问题，这个参数只用的时候需要传递两个参数，第一个参数是用来标记这个字段总共能存储多少个数字，第二个参数表示小数点后有多少位。
 5. Enum： 枚举类型,指定某个字段只能是枚举中指定的几个值，不能为其他值。在ORM模型中，使用Enum 来作为枚举，实例如下
+
    ```python
     class Article(Base):
         __tablename__ = 'article'
         id = Column(Integer, primary_kdy=True, autoincrement=True)
         tag = Column(Enum('python', 'flask', 'django'))
    ```
+
    在Python3中， 已经内置了 enum这个模块，我们也可以使用这个模块定义相关的字段，实例如下
+
    ```python
     class TagEnum(enum.Enum):
         python = 'python'
@@ -877,7 +930,9 @@ conn.execute('select 1')
 
     article = Article(tag=TagEnum.python)
    ```
+
 6. Date： 存储时间，只能存储年 月 日， 映射到数据库中是date类型。在Python代码中， 可以使用datetime.date来指定。实例代码如下：
+
    ```python
     class Article(Base):
         # 创建数据库表名称
@@ -885,12 +940,14 @@ conn.execute('select 1')
         id = Column(Integer, primary_key=True, autoincrement=True)
         # date 类型
         create_date = Column(Date)
-    
+
     from datetime import date
     article = Article(create_date=date(2019, 5, 29))
-    
+
    ```
+
 7. DateTime：可以存储 年 月 日 时  分 秒 毫秒等，映射到数据库中也是datetime类型。在Python代码中，可以使用 datetime.datetime 来指定。实例代码如下：
+
    ```python
     class Article(Base):
         # 创建数据库表名称
@@ -898,23 +955,26 @@ conn.execute('select 1')
         id = Column(Integer, primary_key=True, autoincrement=True)
         # date 类型
         create_date = Column(DateTime)
-    
+
     from datetime import datetime
     article = Article(create_date=datetime(2019, 5, 29, 11, 11, 11))
    ```
+
 8. Time： 存储时间可以存储时 分 秒， 映射到数据库中也是time类型。在Python代码中，可以使用datetime.time 来指定，实例代码：
-   ```python 
+
+   ```python
    class Article(Base):
         # 创建数据库表名称
         __tablename__ = 'article'
         id = Column(Integer, primary_key=True, autoincrement=True)
         # date 类型
         time = Column(Time)
-    
+
     from datetime import time
     article = Article(create_date=time(hour=11, minute=11, second=11))
    ```
-9.  String： 字符串类型，使用时需要制定长度，区别于Text类型
+
+9. String： 字符串类型，使用时需要制定长度，区别于Text类型
 10. Text： 文本类型
 11. LONGTEXT： 只有MySQL中存在 需要在 from sqlalchemy.dialects.mysql import LONGTEXT 中导入。
 
@@ -927,11 +987,14 @@ conn.execute('select 1')
 5. unique： 指定某个字段是否为空，默认是False（默认可以重复）
 6. onupdate： 在数据更新的时候，会调用这个参数指定的值或参数，在第一次插入这条数据的时候，不会用onupdate的值，只会用default的值。常用的就是 update_time (每次更新数据的时候都要更新的值)。
 7. name： 指定ORM中某个属性映射到表中的字段名，如果不指定，那么就会使用这个属性的名字来作为字段名，如果指定了，就会使用指定的这个值作为参数，这个参数也可以当做位置参数，在第一个参数来指定。
+
    ```python
     title = Column(String(50), name="my_title")
     title = Column("my_title", String(50))
    ```
+
 #### query可用参数
+
 1. 模型对象。指定查找这个模型中所有的对象
 2. 模型中的属性，可以指定只查找某个模型的其中几个属性。
 3. 聚合函数
@@ -943,70 +1006,78 @@ conn.execute('select 1')
    func 上，其实没有任何聚合函数，但是因为他底层实现了一些魔术方法，只要MySQL中有的聚合函数，都可以通过func来调用。
 
 #### filter 过滤条件
+
 过滤是数据提取的一个很重要的功能， 以下对一些常用的过滤条件进行解释，并且通过这些过滤条件都是只能通过filter方法实现的。
 
 1. equal:
-```python 
-art  = sesson.query(Article).filter(Article.title == 'title0').first()
-print(art)
-```
 
-2. not  equal 
-```python
-art = sesson.query(Article).filter(Article.title != 'title0').all()
-print(art)
-```
+    ```python
+    art  = sesson.query(Article).filter(Article.title == 'title0').first()
+    print(art)
+    ```
+
+2. not  equal
+
+    ```python
+    art = sesson.query(Article).filter(Article.title != 'title0').all()
+    print(art)
+    ```
 
 3. like 模糊查询 ilike  不区分大小写
-```python 
-art = sesson.query(Article).filter(Article.title.like('title%')).all()
-print(art)
-```
 
-4. in 
-```python
-art = sesson.query(Article).filter(Article.title.in_(['title1', 'title2'])).all()
-print(art)
-```
+    ```python
+    art = sesson.query(Article).filter(Article.title.like('title%')).all()
+    print(art)
+    ```
+
+4. in
+
+    ```python
+    art = sesson.query(Article).filter(Article.title.in_(['title1', 'title2'])).all()
+    print(art)
+    ```
 
 5. not in 两种实现方式. < ~ >
- ```python
-art = sesson.query(Article).filter(Article.title.notin_(['title1', 'title2', 'title3'])).all()
-print(art)
-art = sesson.query(Article).filter(~Article.title.in_(['title1', 'title2', 'title3'])).all()
-print(art)
-```
+
+    ```python
+    art = sesson.query(Article).filter(Article.title.notin_(['title1', 'title2', 'title3'])).all()
+    print(art)
+    art = sesson.query(Article).filter(~Article.title.in_(['title1', 'title2', 'title3'])).all()
+    print(art)
+    ```
 
 6. is null | is not null
 
-```python
-art = sesson.query(Article).filter(Article.title == None).all()
+    ```python
+    art = sesson.query(Article).filter(Article.title == None).all()
 
-```
+    ```
 
 7. and
 
-```python
-art = sesson.query(Article).filter(and_(Article.title='title01', Article.id=5)).all()
-```
+    ```python
+    art = sesson.query(Article).filter(and_(Article.title='title01', Article.id=5)).all()
+    ```
 
 8. or
-```python 
-art = sesson.query(Article).filter(or_(Article.title == 'title2', Article.id = 3)).all()
-print(art)
-```
 
-如果想要查看ORM底层SQL语句，可以在filter方法后面不要在执行任何方法打印就可以看到了，比如：
-```python
-art = sesson.query(Article).filter(or_(Article.title == 'title2', Article.id = 3))
-print(art)
-```
+    ```python
+    art = sesson.query(Article).filter(or_(Article.title == 'title2', Article.id = 3)).all()
+    print(art)
+    ```
+
+    如果想要查看ORM底层SQL语句，可以在filter方法后面不要在执行任何方法打印就可以看到了，比如：
+
+    ```python
+    art = sesson.query(Article).filter(or_(Article.title == 'title2', Article.id = 3))
+    print(art)
+    ```
 
 ### 5.4 表关系
 
 #### 5.4.1 外键
-使用SQLAlchemy 创建外键非常简单，在从表中增加一个字段，指定这个字段外键的是那个表的那个字段就可以了，从表中外键字段，必须和父表的主键字段类型保持一致。
 
+使用SQLAlchemy 创建外键非常简单，在从表中增加一个字段，指定这个字段外键的是那个表的那个字段就可以了，从表中外键字段，必须和父表的主键字段类型保持一致。
 
 ```python
 
@@ -1041,8 +1112,6 @@ class Article(Base):
     def __repr__(self):
         return "<Article(title: {}, content: {})>".format(self.title, self.content)
 
-
-
 Base.metadata.create_all()
 
 sesson.commit()
@@ -1054,12 +1123,12 @@ sesson.commit()
 1. RESTRICT: 父表数据被删除，会阻止删除，默认就是这一项
 2. NO ACTION: 在MySQL中，同 RESTRICT
 3. CASCADE: 级联删除
-4. SET NULL: 父表数据被删除，字表数据会被设置为NULL 
-
+4. SET NULL: 父表数据被删除，字表数据会被设置为NULL
 
 #### 5.4.3 ORM 关系以及一对多
 
 MySQL 级别的外键，还不够 ORM，必须要拿到一个表的外键，然后通过这个外键再去另外一张表中查找，这样太麻烦，SQLAlchemy提供了一个`relationship`，这个类可以定义属性，以后再访问相关关联的表的时候就直接可以通过属性访问的方式就可以访问得到了，示例代码：
+
 ```Python
 class User(Base):
     __tablename__='user'
@@ -1090,7 +1159,9 @@ class Article(Base):
 另外可以通过 `backref` 来指定反向访问的属性名称。
 
 #### 5.4.4 一对一关系
+
 在`sqlalchemy`中，如果想要将两个模型映射成一对一关系，那么应该在父模型中，指定引用的时候，要传递一个 `uselist=False` 这个参数进去。就是告诉父模型，以后引用这个从模型的时候，不再是一个对象了。实例代码如下：
+
 ```python
 class User(Base):
     __tablename__='user'
@@ -1117,9 +1188,10 @@ class UserExtend(Base):
         return "<UserExtend(shool: {})>".format(self.school)
 
 ```
+
 当然，也可以借助 sqlalchemy.orm.backref 来简化代码：
 
-```python 
+```python
 class User(Base):
     __tablename__='user'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -1153,15 +1225,13 @@ class UserExtend(Base):
 3. 只用Table定义一个中间表，中间表一般就是包含两个模型的外键字段就可以了， 并且让他们两个来作为一个 复合主键
 4. 在两个需要做多对多的模型中随便选择一个模型， 定义一个 relationship 属性，来绑定三者之间的关系，在使用 relationship 的时候，需要传入一个 secondary=中间件。
 
-
 #### 5.4.6 ORM层面删除数据：
+
 ORM层面删除数据，会无视MySQL级别的外键约束。直接回将对应的数据删除，然后将从表中的那个外键设置null。 如果想要避免这种行为，应该将从表中的外键的 `nullable=Fasle`。
 
-```
+```python
 sesson.delete(tags)
 ```
-
-
 
 #### 5.4.8 排序
 
@@ -1183,7 +1253,7 @@ sesson.delete(tags)
 2. offset : 可以限制查找数据的时候过滤掉前面多少条
 3. 切片 : 可以对 query 对象使用切片操作，来获取想要的数据 , 可以使用 slice(start, stop) 方法来做切片操作，也可以使用[start:stop] 的方式来进行切片操作。一般在实际开发中，中括号的相识是用的比较多的。示例代码如下：
 
-```python 
+```python
 from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship
@@ -1193,7 +1263,6 @@ engine = create_engine('sqlite:///test1.db', echo=True)
 
 Base = declarative_base(engine)
 session = sessionmaker(engine)()
-
 
 
 class Article(Base):
@@ -1237,10 +1306,11 @@ session.commit()
 总而言之一句话： 如果你在获取数据的时候，想要在多的那一边的数据再进行一层过滤，那么就可以考虑使用 lazy='dynamic'。
 
 lazy 可用选项：
+
 1. select ： 这个是默认选项，还是拿 user.articles 的例子，如果你没有访问 user.articles 这个属性，那么 sqlalchemy 就不会从数据库中查找文章。 一旦你访问了这个属性， 那么 sqlalchemy 就会立马从数据库中查找所有的文章，并把所有的文章组装成一个列表返回。这也是懒加载。
 2. dynamic : 这个就是刚讲的，就是在访问 user.articles 的时候返回回来的不是一个列表， 而是 AppenderQuery 对象。
 
-```python 
+```python
 from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship, backref
@@ -1300,14 +1370,14 @@ user.article.append(articles)
 session.commit()
 
 ```
- 
+
 ### 5.5 高级查询
 
 #### 5.5.1 group_by
 
 根据某个字段进行分组。比如想要根据性别进行分组，来统计每个分组分别有多少人，那么可以使用一下代码来完成：
 
-```python 
+```python
 from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime, Enum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker,relationship, backref
@@ -1353,9 +1423,10 @@ print(user)
 
 ```
 
-#### 5.5.2 having:
+#### 5.5.2 having
 
-having是对查找结果进一步过滤，比如只想要看未成年人的数量，那么就可以首先对年龄进行分组统计人数，然后在对分组进行having过滤。实例代码如下： 
+having是对查找结果进一步过滤，比如只想要看未成年人的数量，那么就可以首先对年龄进行分组统计人数，然后在对分组进行having过滤。实例代码如下：
+
 ```python
 from sqlalchemy import create_engine, Column, Integer, String, Float, func, and_, or_, ForeignKey, Text, Table, DateTime, Enum
 from sqlalchemy.ext.declarative import declarative_base
@@ -1379,20 +1450,10 @@ class User(Base):
     def __repr__(self):
         return "<User(username: {}, age: {}, gender: {})>".format(self.username, self.age, self.gender)
 
-# having 
+# having
 user = session.query(User.age, func.count(User.id)).group_by(User.age).having(User.age < 18).all()
 print(user)
 
 ```
 
-#### 5.5.3 join:
-
-
-
-
-
-
-
-
-
-
+#### 5.5.3 join
