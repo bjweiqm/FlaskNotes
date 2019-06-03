@@ -1457,3 +1457,104 @@ print(user)
 ```
 
 #### 5.5.3 join
+
+1. left join 左外链接
+2. right join 右外链接
+3. inner join 内链接
+
+> SELECT * FROM a LEFT JOIN b on a.id=b.id 左外链接
+
+内链接
+
+> SELECT * FROM a INNER JOIN b on a.id=b.id 内链接
+
+#### 5.5.4 subquery 子查询
+
+子查询可以让多个查询变成一个查询，只要查询一次数据库，性能相对来讲更加高效一点。不用写多条SQL语句就可以实现一些复杂的查询。那么在sqlalchemy中，要实现一个子查询，应该使用下面几个步骤：
+
+1. 将子查询按照传统的方式写好查询语句。然后在query 对象后面执行 subquery 方法。将这个查询编程一个子查询
+2. 在子查询中，将以后需要用到的字段通过 label 方法，取个别名。
+3. 在福查询中，如果想要使用子查询字段，那么就可以通过子查询的变量上的 c 属性拿到。
+
+整体的实例代码如下：
+
+```python
+# encoding: utf-8
+
+from sqlalchemy import create_engine, Column, String, Integer
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+
+# 链接数据库
+engine = create_engine('sqlite:///test5.db', echo=True)
+# 创建基类
+Base = declarative_base(bind=engine)
+session = sessionmaker(engine)()
+
+
+# 实例化数据库
+class User(Base):
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
+    city = Column(String(50), nullable=False)
+    age = Column(Integer, default=0)
+
+    def __repr__(self):
+        return "<User(username: {}, city: {}, age: {})>".format(
+            self.username,
+            self.city,
+            self.age
+        )
+
+# 删除数据库内所有表
+# Base.metadata.drop_all()
+# 在数据库中创建定义的所有的表
+# Base.metadata.create_all()
+
+
+# 插入数据
+# session.add_all([
+#     User(username='李A', city='长沙', age=18),
+#     User(username='王B', city='长沙', age=18),
+#     User(username='赵C', city='北京', age=18),
+#     User(username='张D', city='长沙', age=20)
+
+# ])
+
+# 提交数据
+# session.commit()
+
+# 寻找和李A这个人在同一个城市，并且是同龄的人
+# 第一种方法, 需要两条SQL语句。
+# user = session.query(User).filter(User.username == '李A').first()
+# users = session.query(User).filter(User.city == user.city, User.age == user.age).all()
+# print(users)
+
+# 第二种方式, 能够提升查询性能。
+stmt = session.query(User.city.label('city'), User.age.label('age')).filter(User.username=='李A').subquery()
+
+result = session.query(User).filter(User.city == stmt.c.city, User.age == stmt.c.age).all()
+print(result)
+```
+
+### Flask-SQLAlchemy
+
+#### 安装Flask-SQLAlchemy
+
+`pip install flask-sqlalchemy`
+
+#### 数据库连接
+
+1. 定义数据库连接字符串
+2. 将这个定义好的数据库连接字符串配置到 app.config 中。实例代码：`app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///test.db'`
+3. 使用 flask_sqlalchemy.SQLAlchemy 这个类定义一个对象，并将 app 传入进去。示例代码： `db = SQLAlchemy(app)`
+
+#### 创建ORM模型
+
+#### 将ORM模型映射到数据库
+
+#### 使用session
+
+#### 查询数据
