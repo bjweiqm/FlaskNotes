@@ -10,8 +10,17 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     __tablename__ = 'user'
-    id = db.Column(db.Integer)
-    name = db.Column(db.String(50))
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50), nullable=False)
+
+
+class Art(db.Model):
+    __tablename__ = 'art'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(50), nullable=False)
+    uid = db.relationship(db.Integer, db.ForeignKey('user.id'))
+
+    
 
 
 
