@@ -19,9 +19,10 @@ class Art(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(50), nullable=False)
     uid = db.relationship(db.Integer, db.ForeignKey('user.id'))
-
     
 
+
+db.create_all()
 
 
 @app.route('/')
