@@ -1553,8 +1553,21 @@ print(result)
 
 #### 创建ORM模型
 
+1. 还是跟使用`sqlalchemy`一样，定义模型，现在不在需要使用 `delarative_base` 来创建基类， 而是使用 db.Model 来作为基类
+2. 在模型类中， `Column` 、 `String` 以及 `relationship` 等, 都不需要导入了，直接使用 db 下面的属性名就可以了。
+3. 在定义模型的时候，可以不写 `__tablename__` ，那么 flask_sqlalchemy 会默认使用当前模型的名字会转换成小写来作为表的名字，并且如果这个模型的名字使用了多个单词并且使用了驼峰命名法，那么会在多个单词间使用下划线来进行连接，__虽然flask_sqlalchemy给我们提供了这个特性，但是不推荐使用。因为名言胜于暗喻__
+
 #### 将ORM模型映射到数据库
+
+1. db.drop_all()
+2. db.create_all()
 
 #### 使用session
 
+以后 `session` 也不需要使用 `sessionmaker` 来创建了，直接使用 `db.session` 就可以了，操作这个 `session` 的时候就跟之前的 `sqlalchemy` 的 `session` 一样。
+
 #### 查询数据
+
+如果查询数据只是查找一个模型上的数据，那么可以通过 `模型.query` 的方式进行查找， `query` 就跟之前的 `sqlalchemy` 中的 `query` 方法是一样的。
+
+### alembic 数据库迁移工具
