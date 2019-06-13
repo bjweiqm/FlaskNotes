@@ -1539,7 +1539,7 @@ result = session.query(User).filter(User.city == stmt.c.city, User.age == stmt.c
 print(result)
 ```
 
-### Flask-SQLAlchemy
+### 5.6 Flask-SQLAlchemy
 
 #### 安装Flask-SQLAlchemy
 
@@ -1570,4 +1570,42 @@ print(result)
 
 如果查询数据只是查找一个模型上的数据，那么可以通过 `模型.query` 的方式进行查找， `query` 就跟之前的 `sqlalchemy` 中的 `query` 方法是一样的。
 
-### alembic 数据库迁移工具
+### 5.7 alembic 数据库迁移工具
+
+#### 5.7.1 安装
+
+`pip install alembic`
+
+#### 5.7.2 使用alembic步骤
+
+1. 定好自己的模型
+2. 使用alembic创建一个仓库 alembic init [仓库的名字，推荐使用alembic]
+3. 修改配置文件：
+    1. 在alembic.ini 中，给sqlalchemy.url 设置数据库的链接方式，这个链接方式跟 sqlalchemy的方式一样。
+    2. 在 alembic/env.py 中的 target_metadata 设置模型的 Base.metadata 。但是要导入 models， 需要将models所在的路径添加到这个文件中，实例如下：
+
+    ```python
+    import sys, os
+    sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+    from alembic_app.modes import Base
+    ```
+
+4. 将ORM模型生成迁移脚本：`alembic revision --autogenerate -m 'first submit'`
+5. 将生成的脚本映射到数据库中 `alembic upgrade head`
+6. 以后修改了模型，重复 4、5步骤
+7. 在终端中，如果想要使用 alembic， 则需要首先进入到安装了 alembic 的虚拟环境中，不然就找不到这个命令。
+
+命令与解释：
+
+1. init： 创建一个alembic仓库
+2. revision：创建一个新的版本文件
+3. --autogenerate：自动将当前模型的修改，生成迁移脚本
+4. -m：本次迁移做了哪些修改，用户可以指定这个参数，方便回顾
+5. upgrade：将指定版本的迁移文件映射到数据库中， 会执行脚本文件中的 upgrade 函数。如果有多个迁移脚本没有被映射到数据库中，那么会执行多个迁移脚本
+6. [head]：代表最新的迁移脚本的版本号。
+7. downgrade：会执行指定版本的迁移文件中的 downgrade 函数。
+8. heads：展示 head 指向的脚本文件版本号
+9. history：列出所有的迁移版本及其信息
+10. current：展示当前数据库中的版本号
+
+另外，在你第一次执行upgrade 的时候，就会在数据库中创建一个名叫 alembic_version 表， 这个表只会有一条数据，记录当前数据库映射的是哪个版本的迁移文件。
