@@ -1611,3 +1611,10 @@ print(result)
 10. current：展示当前数据库中的版本号
 
 另外，在你第一次执行upgrade 的时候，就会在数据库中创建一个名叫 alembic_version 表， 这个表只会有一条数据，记录当前数据库映射的是哪个版本的迁移文件。
+
+##### 5.7.2.1 经典错误
+
+错误描述|原因|解决办法
+--|--|--
+FAILED：Target database is not up to data.|主要是heads和current不相同。current落后于heads。|将current迁移到head上。alembic upgrade head
+FAILED：Can`t locate revision identified by '77525ee61b5b'|数据库中存在的版本号不在迁移脚本文件中|删除数据库的 alembic_version表中的数据，重新执行alembic upgrade head

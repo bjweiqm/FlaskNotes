@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 
-engine = create_engine('sqlite:///tmp/test1.db', echo=True)
+engine = create_engine('sqlite:///tmp/test2.db', echo=True)
 
 Base = declarative_base(engine)
 
@@ -11,9 +11,10 @@ class User(Base):
     __tablename__ = 'user'
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(50), nullable=False)
+    country = Column(String(50))
 
     def __repr__(self):
-        return "<User(id: {}, username: {})>".format(self.id, self.username)
+        return "<User(id: {}, username: {}, country: {})>".format(self.id, self.username, self.country)
 
 # ORM --> 迁移脚本 ---> 映射到数据库中
 # 初始化alembic仓库  alembic init alembic_name
