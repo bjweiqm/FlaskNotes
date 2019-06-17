@@ -1618,3 +1618,4 @@ print(result)
 --|--|--
 FAILED：Target database is not up to data.|主要是heads和current不相同。current落后于heads。|将current迁移到head上。alembic upgrade head
 FAILED：Can`t locate revision identified by '77525ee61b5b'|数据库中存在的版本号不在迁移脚本文件中|删除数据库的 alembic_version表中的数据，重新执行alembic upgrade head
+执行 upgrade head 时报某个表已经存在|执行这个命令的时候会执行所有的迁移脚本，因为数据库中已经存在这个表，迁移脚本中又包含了创建表的代码|1. 删除versions中所有的迁移文件，2. 修改迁移脚本中创建表的代码
