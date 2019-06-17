@@ -1578,6 +1578,8 @@ print(result)
 
 #### 5.7.2 使用alembic步骤
 
+实例文件 > alembic_app 文件夹, alembic仓库是 alembic
+
 1. 定好自己的模型
 2. 使用alembic创建一个仓库 alembic init [仓库的名字，推荐使用alembic]
 3. 修改配置文件：
