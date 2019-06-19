@@ -26,7 +26,8 @@ db.init_app(app)
 #             self.id, self.username, self.email
 #         )
 
-db.create_all()
+# db.create_all()
+
 
 @app.route('/')
 def index():

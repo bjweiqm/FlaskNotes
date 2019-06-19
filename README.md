@@ -1671,4 +1671,30 @@ db_script.py
 
 #### 5.7.4 flask-migrate
 
-安装
+1. 安装 `pip install flask-migrate`
+
+2. 在manage中的代码
+
+    ```python
+    from flask_script import Manager
+    from run import app
+    from ext import db
+    from models import User  # 需要把映射到服务器中的模型导入到manage.py文件中
+    from flask_migrate import Migrate, MigrateCommand
+
+    manager = Manager(app)
+    # 用来绑定APP 和 db到flask_migrage 的
+    Migrate(app, db)
+    # 添加Migrate的所有命令到db下
+    manager.add_command('db', MigrateCommand)
+
+
+    if __name__ == "__main__":
+        manager.run()
+    ```
+
+3. flask-migrate常用命令
+    1. 初始化一个环境：`python manage.py db init`
+    2. 自动检测模型，生成迁移脚本：`python manage.py db migrate`
+    3. 将迁移脚本映射到数据库中：`python manage.py db upgrade`
+    4. 更多命令：`python manage.py db --help`
