@@ -1669,4 +1669,6 @@ db_script.py
         print('脚本映射到数据库成功！')
     ```
 
+#### 5.7.4 flask-migrate
 
+安装
