@@ -19,4 +19,29 @@
    3. 如果max_age和expires都设置了，那么这个时候已 max_age 为准
    4. max_age在IE8以下的浏览器是不支持的，expires 虽然在新版的HTTP协议中是被废弃了，但是到目前为止，多有的浏览器都还是能够支持，所以如果想要兼容ie8以下的浏览器，那么应该使用expires，否则可以使用 max_age
    5. 默认的过期时间：如果没有显示的指定过期时间，那么这个cookie将会在浏览器关闭后过期。
-4. 设置cookie的有效域名： 
+
+    ```python
+    @app.route('/')
+    def hello_world():
+
+        rep = Response('知了课堂')
+        expires = datetime(year=2019, month=07, day=01, hour=11, minute=0, second=0)
+        # 使用expires参数，就必须使用格林尼治时间
+        # 相对比北京时间少8个小时
+        expires = dateitme.now() + timedelte(days=30, hours=16)
+        # 在新版本的HTTP协议中， expires 参数视为被废弃
+        # max_age，在IE8以下的浏览器中是不支持的
+        # expires 与 max_age 同时存在的情况下，优先使用 max_age 参数
+        # resp.set_cookie('username', 'zhiliaoketang', expires=expires, max_age=60)
+        rep.set_cookie('username', 'zhiliao')
+        return rep
+    ```
+
+4. 设置cookie的有效域名：cookie 默认情况下是只能在主域名下使用。如果想要在子域名下使用，那么就应该给 set_cookie 传递一个 `domain='.hy.com'`, 这样其他子域名才能访问这个cookie信息。
+
+### session
+
+1. session的基本概念： session和cookie的作用有点类似，都是为了存储用户相关的信息。不同的是，cookie是存储在本地浏览器，session是一个思路，一个概念，一个服务器存储授权信息的解决方案，不同的服务器，不同的框架，不同的语言有不同的实现。虽然实现不一样，但是他们的目的都是服务器为了方便存储数据的。session的出现，是为了解决cookie存储数据不安全的问题的。
+2. session与cookie的结合使用
+   1. session存储在服务器端：服务器端可以采用MySQL、Redis、memcached等来存储session信息。原理是，客户端发送验证信息过来(比如：用户名和密码)，服务器验证成功后，把用户的相关信息存储到session中，然后随机生成一个session_id，再把这个session_id存储在cookie中返回给浏览器。浏览器以后再请求我们服务器的时候，就会把这个session_id自动的发送给服务器，服务器再从cookie中提取session_id相关信息。这样就可以达到安全设别用户的需求了。
+   2. session存储到客户端：原理是，客户端发送验证信息过来（比如：用户名和密码），服务器把相关的验证信息进行一个非常严格和安全的加密方式进行加密，然后再把这个加密后的信息存储到cookie，返回给浏览器。以后浏览器在请求服务器的时候，就会自动的把cookie发送给服务器，服务器拿到cookie后，就从cookie找到加密的那个session信息，然后也可以实现安全识别用户的需求了。
