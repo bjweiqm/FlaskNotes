@@ -767,14 +767,14 @@ flask中 导入宏是从 templates 中开始计算路径
 - 蓝图的作用就是让我们的flask项目更加模块化，结构更加清晰。可将相同模块的视图函数放在同一个蓝图下，同一个文件中，方便管理。
 - 基本语法
 
-    ~ 在蓝图文件中导入蓝图，
+    - 在蓝图文件中导入蓝图，
 
     ```python
     from flask import Blueprint
     user_bp = Blueprint('user', __name__)
     ```
 
-    ~ 在APP文件中注册蓝图
+    - 在APP文件中注册蓝图
 
     ```python
     from blueprint.user import user_bp
