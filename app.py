@@ -20,6 +20,7 @@ from flask import Flask, render_template
 #可以通过这个参数找到具体的报错位置
 app = Flask(__name__)
 
+
 app.config.update({
     # 开启debug模式，
     "DEBUG": True,
